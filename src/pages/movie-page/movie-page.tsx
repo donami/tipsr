@@ -7,6 +7,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import Heading from '../../components/ui/heading';
 import similar from '../../queries/similar';
 import Poster from '../../components/movie/poster';
+import AddToList from '../../components/lists/add-to-list';
 
 type Props = {} & RouteComponentProps<{ id: string }>;
 const MoviePage: React.SFC<Props> = ({ match }) => {
@@ -25,6 +26,7 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
           return (
             <div>
               <Heading as="h2">{data.movie.title}</Heading>
+              <AddToList movieId={data.movie.id} />
               <Query
                 query={similar}
                 variables={{ externalId: data.movie.externalId }}

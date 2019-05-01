@@ -7,6 +7,8 @@ import DefaultLayout from '@/components/layout/default-layout';
 import me from '@/queries/me';
 import Authenticated from '@/components/login/authenticated';
 import FavoritePage from './pages/favorites';
+import ListsPage from './pages/lists';
+import ListPage from './pages/list';
 
 type Props = {};
 const ProfilePage: React.SFC<Props & RouteComponentProps> = ({ match }) => {
@@ -15,6 +17,7 @@ const ProfilePage: React.SFC<Props & RouteComponentProps> = ({ match }) => {
       <Authenticated>
         <h3>Profile Page</h3>
         <Link to="/profile/favorites">Favorites</Link>
+        <Link to="/profile/lists">Lists</Link>
         <Query query={me}>
           {({ data, loading }) => {
             if (loading) {
@@ -27,6 +30,8 @@ const ProfilePage: React.SFC<Props & RouteComponentProps> = ({ match }) => {
                   path={`${match.url}/favorites`}
                   component={FavoritePage}
                 />
+                <Route path={`${match.url}/list/:id`} component={ListPage} />
+                <Route path={`${match.url}/lists`} component={ListsPage} />
               </Switch>
             );
           }}
