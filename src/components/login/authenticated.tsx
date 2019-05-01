@@ -3,7 +3,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 type Props = {} & RouteComponentProps;
 const Authenticated: React.SFC<Props> = ({ history, children }) => {
-  if (typeof sessionStorage === 'undefined') {
+  if (typeof window === 'undefined' || typeof sessionStorage === 'undefined') {
     return null;
   }
   if (!sessionStorage.getItem('token')) {

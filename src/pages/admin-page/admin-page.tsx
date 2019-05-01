@@ -1,5 +1,5 @@
 import React from 'react';
-import Authenticated from '../../components/login/authenticated';
+import Authenticated from '@/components/login/authenticated';
 import { Switch, Route, RouteComponentProps, Link } from 'react-router-dom';
 import AdminMoviesPage from './pages/admin-movies';
 import AdminDashboardPage from './pages/admin-dashboard';

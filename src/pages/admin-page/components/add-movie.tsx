@@ -76,6 +76,7 @@ const AddMovie = () => {
                             variables: {
                               title: result.title,
                               poster: result.poster,
+                              externalId: result.id,
                             },
                           });
 

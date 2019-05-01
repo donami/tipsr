@@ -21,6 +21,9 @@ import LoginPage from '../pages/login-page/login-page';
 import SignupPage from '../pages/signup-page/signup-page';
 import AdminPage from '../pages/admin-page/admin-page';
 import SignOutPage from '../pages/sign-out-page/sign-out-page';
+import BrowsePage from '../pages/browse-page/browse-page';
+import ProfilePage from '../pages/profile-page/profile-page';
+import MoviePage from '../pages/movie-page/movie-page';
 
 // ----------------------------------------------------------------------------
 
@@ -29,29 +32,44 @@ import SignOutPage from '../pages/sign-out-page/sign-out-page';
 // will contain at least a component and a path
 const routes: RouteProps[] = [
   {
-    component: AdminPage, // <-- this is the component that'll be rendered
-    // exact: true, // <-- this says to ONLY match when the path is exactly '/'
-    path: '/admin', // <-- ... and this is the actual path to match on
+    component: MoviePage,
+    exact: true,
+    path: '/movie/:id',
   },
   {
-    component: LoginPage, // <-- this is the component that'll be rendered
-    exact: true, // <-- this says to ONLY match when the path is exactly '/'
-    path: '/login', // <-- ... and this is the actual path to match on
+    component: BrowsePage,
+    exact: true,
+    path: '/browse',
   },
   {
-    component: SignupPage, // <-- this is the component that'll be rendered
-    exact: true, // <-- this says to ONLY match when the path is exactly '/'
-    path: '/signup', // <-- ... and this is the actual path to match on
+    component: ProfilePage,
+    // exact: true,
+    path: '/profile',
   },
   {
-    component: SignOutPage, // <-- this is the component that'll be rendered
-    exact: true, // <-- this says to ONLY match when the path is exactly '/'
-    path: '/signout', // <-- ... and this is the actual path to match on
+    component: AdminPage,
+    // exact: true,
+    path: '/admin',
   },
   {
-    component: HomePage, // <-- this is the component that'll be rendered
-    exact: true, // <-- this says to ONLY match when the path is exactly '/'
-    path: '/', // <-- ... and this is the actual path to match on
+    component: LoginPage,
+    exact: true,
+    path: '/login',
+  },
+  {
+    component: SignupPage,
+    exact: true,
+    path: '/signup',
+  },
+  {
+    component: SignOutPage,
+    exact: true,
+    path: '/signout',
+  },
+  {
+    component: HomePage,
+    exact: true,
+    path: '/',
   },
 ];
 

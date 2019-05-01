@@ -38,7 +38,9 @@ const Login: React.SFC<any> = ({ history }) => {
                 }
 
                 if (login && login.user && login.user.jwt) {
-                  sessionStorage.setItem('token', login.user.jwt);
+                  if (typeof sessionStorage !== 'undefined') {
+                    sessionStorage.setItem('token', login.user.jwt);
+                  }
                   history.push('/admin');
                 }
               } catch (error) {

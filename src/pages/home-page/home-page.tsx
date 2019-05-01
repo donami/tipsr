@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import DefaultLayout from '@/components/layout/default-layout';
 import { Link } from 'react-router-dom';
+import DefaultLayout from '@/components/layout/default-layout';
 
 type Props = {};
 const HomePage: React.SFC<Props> = () => {

@@ -22,7 +22,10 @@ import createState from './state';
 const authMiddlewareLink = setContext((request, previousContext) => {
   const headers = {
     headers: {
-      authorization: sessionStorage.getItem('token') || null,
+      authorization:
+        (typeof sessionStorage !== 'undefined' &&
+          sessionStorage.getItem('token')) ||
+        null,
       // [JWT.HEADER.TOKEN.NAME]:
       //   localStorage.getItem(JWT.LOCAL_STORAGE.TOKEN.NAME) || null,
       // [JWT.HEADER.REFRESH_TOKEN.NAME]:
