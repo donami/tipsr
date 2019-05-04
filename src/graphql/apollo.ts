@@ -33,6 +33,8 @@ const authMiddlewareLink = setContext((request, previousContext) => {
     },
   };
 
+  console.log('headers', headers);
+
   // if (headers.headers[JWT.HEADER.REFRESH_TOKEN.NAME]) {
   //   const currentTime = Date.now().valueOf() / 1000;
   //   const tokenExpiration = decode(

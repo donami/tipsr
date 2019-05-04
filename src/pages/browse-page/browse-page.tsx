@@ -5,6 +5,7 @@ import Loader from '@/components/ui/loader';
 import Poster from '@/components/movie/poster';
 import DefaultLayout from '@/components/layout/default-layout';
 import addFavorite from '../../mutations/add-favorite';
+import { Link } from 'react-router-dom';
 
 const BrowsePage = () => {
   return (
@@ -24,7 +25,7 @@ const BrowsePage = () => {
                     {data.movies.map(movie => (
                       <div key={movie.id}>
                         <Poster image={movie.poster} small />
-                        {movie.title}
+                        <Link to={`/movie/${movie.id}`}>{movie.title}</Link>
                         <span
                           onClick={async () => {
                             const added = await mutate({

@@ -6,7 +6,8 @@ import findMovies from '@/mutations/find-movies';
 import addMovieMutation from '@/mutations/add-movie';
 import { useToasts } from '@/components/toasts/toast-manager';
 
-const AddMovie = () => {
+type Props = {};
+const AddMovie: React.SFC<Props> = () => {
   const [title, setTitle] = useState('');
   const [results, setResults] = useState<any>(null);
   const { add } = useToasts();
@@ -75,6 +76,7 @@ const AddMovie = () => {
                           const added = await addMovieAction({
                             variables: {
                               title: result.title,
+                              voteAverage: result.voteAverage,
                               poster: result.poster,
                               externalId: result.id,
                             },

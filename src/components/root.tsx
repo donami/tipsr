@@ -6,6 +6,7 @@
 /* NPM */
 import * as React from 'react';
 import Helmet from 'react-helmet';
+import { Query } from 'react-apollo';
 import { hot } from 'react-hot-loader';
 import { Route, Switch } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -23,11 +24,14 @@ import {
   faArrowCircleLeft,
   faExternalLinkAlt,
 } from '@fortawesome/free-solid-svg-icons';
+import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 
 /* Local */
+import me from '@/queries/me';
 
 // Components
 import ScrollTop from '@/components/helpers/scrollTop';
+import AppStateContext from '@/components/layout/app-state-context';
 import { ModalProvider } from './modal';
 import { ToastProvider } from './toasts/toast-manager';
 
@@ -45,6 +49,7 @@ library.add(
   faPlusSquare,
   faPlus,
   faStar,
+  farStar,
   faEdit,
   faTrash,
   faExternalLinkAlt,
@@ -62,15 +67,17 @@ const Root = () => (
       <title>Grabr.io</title>
     </Helmet>
     <ScrollTop>
-      <ToastProvider>
-        <ModalProvider>
-          <Switch>
-            {routes.map(route => (
-              <Route key={route.path} {...route} />
-            ))}
-          </Switch>
-        </ModalProvider>
-      </ToastProvider>
+      <AppStateContext.Provider value={{}}>
+        <ToastProvider>
+          <ModalProvider>
+            <Switch>
+              {routes.map(route => (
+                <Route key={route.path} {...route} />
+              ))}
+            </Switch>
+          </ModalProvider>
+        </ToastProvider>
+      </AppStateContext.Provider>
     </ScrollTop>
   </Wrapper>
 );

@@ -25,8 +25,7 @@ const ListsPage: React.SFC<Props> = () => {
               <Mutation
                 mutation={removeList}
                 update={(proxy, { data: { removeList } }: any) => {
-                  const data: ay = proxy.readQuery({ query: lists });
-                  console.log(data);
+                  const data: any = proxy.readQuery({ query: lists });
                   proxy.writeQuery({
                     query: lists,
                     data: {
