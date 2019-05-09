@@ -9,6 +9,7 @@ export default gql`
         firstName
         lastName
         jwt
+        token
       }
       error {
         message

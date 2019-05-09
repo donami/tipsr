@@ -17,6 +17,7 @@ const customStyles = {
     maxHeight: '80%',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
+    color: '#555',
   },
 };
 

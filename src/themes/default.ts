@@ -10,8 +10,8 @@ import { ITheme } from './interface';
 
 const theme: ITheme = {
   colors: {
-    primary: '#41b3a3',
-    secondary: '#3bbe91',
+    primary: '#e6b31e',
+    secondary: '#e6b31e',
     lighter: '#e8a87c',
     brand: '#f7498e',
     accent: '#fb9a68',

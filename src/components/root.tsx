@@ -15,7 +15,10 @@ import {
   faPlusCircle,
   faPlusSquare,
   faEdit,
+  faSearch,
+  faFilm,
   faTrash,
+  faHeart,
   faCut,
   faCaretRight,
   faCaretDown,
@@ -24,7 +27,11 @@ import {
   faArrowCircleLeft,
   faExternalLinkAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
+import {
+  faStar as farStar,
+  faHeart as farHeart,
+  faBookmark,
+} from '@fortawesome/free-regular-svg-icons';
 
 /* Local */
 import me from '@/queries/me';
@@ -41,6 +48,7 @@ import { GlobalStyles } from '@/global/styles';
 // Routes
 import routes from '@/data/routes';
 import styled from '@/lib/styledComponents';
+import getCurrentCredential from '../queries/get-current-credential';
 
 // ----------------------------------------------------------------------------
 
@@ -48,8 +56,13 @@ library.add(
   faPlusCircle,
   faPlusSquare,
   faPlus,
+  faBookmark,
   faStar,
   farStar,
+  faHeart,
+  farHeart,
+  faFilm,
+  faSearch,
   faEdit,
   faTrash,
   faExternalLinkAlt,
@@ -67,17 +80,27 @@ const Root = () => (
       <title>Grabr.io</title>
     </Helmet>
     <ScrollTop>
-      <AppStateContext.Provider value={{}}>
-        <ToastProvider>
-          <ModalProvider>
-            <Switch>
-              {routes.map(route => (
-                <Route key={route.path} {...route} />
-              ))}
-            </Switch>
-          </ModalProvider>
-        </ToastProvider>
-      </AppStateContext.Provider>
+      <Query query={getCurrentCredential} fetchPolicy="cache-only">
+        {({ data, loading }) => {
+          if (loading) {
+            return null;
+          }
+
+          return (
+            <AppStateContext.Provider value={{ auth: data.credential }}>
+              <ToastProvider>
+                <ModalProvider>
+                  <Switch>
+                    {routes.map(route => (
+                      <Route key={route.path} {...route} />
+                    ))}
+                  </Switch>
+                </ModalProvider>
+              </ToastProvider>
+            </AppStateContext.Provider>
+          );
+        }}
+      </Query>
     </ScrollTop>
   </Wrapper>
 );
@@ -85,18 +108,23 @@ const Root = () => (
 export default hot(module)(Root);
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-
-  .header {
-    height: 100px;
-    min-height: 100px;
-    max-height: 100px;
-  }
-  .content {
-    display: block;
-    flex: 1;
-  }
+  overflow-x: hidden;
 `;
+// const Wrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   height: 100%;
+//   background-color: #343434;
+//   justify-content: space-between;
+//   color: #fff;
+
+//   .header {
+//     height: 100px;
+//     min-height: 100px;
+//     max-height: 100px;
+//   }
+//   .content {
+//     display: block;
+//     flex: 1;
+//   }
+// `;

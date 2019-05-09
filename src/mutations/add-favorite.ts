@@ -6,6 +6,7 @@ export default gql`
       favorites {
         id
         title
+        description
         __typename
       }
       error {

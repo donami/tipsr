@@ -7,7 +7,6 @@
 import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink, split } from 'apollo-link';
-import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
@@ -18,61 +17,6 @@ import { SubscriptionClient } from 'subscriptions-transport-ws';
 import createState from './state';
 
 // ----------------------------------------------------------------------------
-
-const authMiddlewareLink = setContext((request, previousContext) => {
-  const headers = {
-    headers: {
-      authorization:
-        (typeof sessionStorage !== 'undefined' &&
-          sessionStorage.getItem('token')) ||
-        null,
-      // [JWT.HEADER.TOKEN.NAME]:
-      //   localStorage.getItem(JWT.LOCAL_STORAGE.TOKEN.NAME) || null,
-      // [JWT.HEADER.REFRESH_TOKEN.NAME]:
-      //   localStorage.getItem(JWT.LOCAL_STORAGE.REFRESH_TOKEN.NAME) || null, // eslint-disable-line
-    },
-  };
-
-  console.log('headers', headers);
-
-  // if (headers.headers[JWT.HEADER.REFRESH_TOKEN.NAME]) {
-  //   const currentTime = Date.now().valueOf() / 1000;
-  //   const tokenExpiration = decode(
-  //     headers.headers[JWT.HEADER.REFRESH_TOKEN.NAME]
-  //   ).exp;
-  //   if (currentTime > tokenExpiration) {
-  //     history.push('/login');
-  //   }
-  // }
-  return headers;
-});
-
-const afterwareLink = new ApolloLink((operation, forward: any) =>
-  forward(operation).map((response: any) => {
-    const context = operation.getContext();
-    const {
-      response: { headers },
-    } = context;
-
-    if (headers) {
-      const token = headers.get('authorization');
-      // const refreshToken = headers.get(JWT.HEADER.REFRESH_TOKEN.NAME);
-
-      if (token) {
-        localStorage.setItem('token', token);
-      }
-
-      // if (refreshToken) {
-      //   localStorage.setItem(
-      //     JWT.LOCAL_STORAGE.REFRESH_TOKEN.NAME,
-      //     refreshToken
-      //   );
-      // }
-    }
-
-    return response;
-  })
-);
 
 export function createClient(): ApolloClient<NormalizedCacheObject> {
   // Create the cache first, which we'll share across Apollo tooling.
@@ -87,6 +31,7 @@ export function createClient(): ApolloClient<NormalizedCacheObject> {
   // set to an external playground at https://graphqlhub.com/graphql
   const httpLink = new HttpLink({
     credentials: 'same-origin',
+    // credentials: 'include',
     uri: GRAPHQL,
   });
 
@@ -123,10 +68,6 @@ export function createClient(): ApolloClient<NormalizedCacheObject> {
       // Connect local Apollo state. This is our primary mechanism for
       // managing 'flux'/local app data, in lieu of Redux or MobX
       createState(cache),
-
-      afterwareLink,
-
-      authMiddlewareLink,
 
       // Split on HTTP and WebSockets
       WS_SUBSCRIPTIONS && !SERVER

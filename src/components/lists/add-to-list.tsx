@@ -3,6 +3,7 @@ import { Query, Mutation } from 'react-apollo';
 import lists from '../../queries/lists';
 import addToListMutation from '../../mutations/add-to-list';
 import Button from '../ui/button';
+import Field from '../ui/field';
 import Authenticated from '@/components/login/authenticated';
 import { useToasts } from '@/components/toasts/toast-manager';
 
@@ -29,21 +30,23 @@ const AddToList: React.SFC<Props> = ({ movieId }) => {
 
           return (
             <Fragment>
-              <select onChange={handleChange}>
-                {!data.lists.length && (
-                  <option value="-1">No lists created</option>
-                )}
-                {!!data.lists.length && (
-                  <Fragment>
-                    <option value="-1">Select list</option>
-                    {data.lists.map((list: any) => (
-                      <option key={list.id} value={list.id}>
-                        {list.title}
-                      </option>
-                    ))}
-                  </Fragment>
-                )}
-              </select>
+              <Field>
+                <select onChange={handleChange}>
+                  {!data.lists.length && (
+                    <option value="-1">No lists created</option>
+                  )}
+                  {!!data.lists.length && (
+                    <Fragment>
+                      <option value="-1">Select list</option>
+                      {data.lists.map((list: any) => (
+                        <option key={list.id} value={list.id}>
+                          {list.title}
+                        </option>
+                      ))}
+                    </Fragment>
+                  )}
+                </select>
+              </Field>
               <Mutation mutation={addToListMutation}>
                 {mutate => (
                   <Button

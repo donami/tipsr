@@ -32,11 +32,13 @@ import './styles.global.scss';
 // the template tags below, and will be picked up in @components/root.tsx
 export const GlobalStyles = createGlobalStyle`
   body {
+    background-color: #343434;
     color: ${props => props.theme.colors.text};
+    color: #fff;
   }
 
   a {
-    color: ${props => props.theme.colors.brand};
+    color: ${props => props.theme.colors.primary};
   }
 
   /* ::-webkit-scrollbar-track {

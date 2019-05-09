@@ -2,15 +2,20 @@ import React, { useEffect, useState } from 'react';
 import DefaultLayout from '@/components/layout/default-layout';
 import { Query, Mutation } from 'react-apollo';
 import movie from '../../queries/movie';
+import addFavorite from '../../mutations/add-favorite';
 import Loader from '../../components/ui/loader';
-import { RouteComponentProps, Link, Redirect } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 import Heading from '../../components/ui/heading';
-import similar from '../../queries/similar';
-import Poster from '../../components/movie/poster';
 import AddToList from '../../components/lists/add-to-list';
 import Rating from '../../components/ui/rating';
+import Icon from '../../components/ui/icon';
+import ActionButton from '../../components/ui/action-button';
 import addExternalMovie from '../../mutations/add-external-movie';
 import movies from '../../queries/movies';
+import styled from '../../lib/styledComponents';
+import SimilarMovies from '../../components/movie/similar-movies';
+import { useModal } from '@/components/modal';
+import Modal from '../../components/modal/modal';
 
 const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
   const [addedMovieId, setAddedMovieId] = useState(null);
@@ -40,9 +45,16 @@ const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
 
 type Props = {} & RouteComponentProps<{ id: string; external: string }>;
 const MoviePage: React.SFC<Props> = ({ match }) => {
+  const [showModal, hideModal] = useModal(() => {
+    return (
+      <Modal hideModal={hideModal} header="Edit Category">
+        <AddToList movieId={+match.params.id} />
+      </Modal>
+    );
+  });
+
   return (
     <DefaultLayout>
-      <h3>Movie Page</h3>
       {!!match.params.external && (
         <Mutation
           mutation={addExternalMovie}
@@ -76,43 +88,48 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
             }
             return (
               <div>
-                <Heading as="h2">{data.movie.title}</Heading>
-                <Rating voteAverage={data.movie.voteAverage} />
-                <AddToList movieId={data.movie.id} />
-                <Query
-                  query={similar}
-                  variables={{ externalId: data.movie.externalId }}
-                >
-                  {({ data: similarData, loading: similarLoading }) => {
-                    if (similarLoading) {
-                      return <Loader />;
-                    }
+                <Top className="movie-top">
+                  <div className="left">
+                    <img src={data.movie.poster} alt="" />
+                  </div>
+                  <div className="movie-top-right">
+                    <Heading as="h2" className="movie-top-right-title">
+                      {data.movie.title}
+                    </Heading>
 
-                    if (!similarData.similar) {
-                      return null;
-                    }
+                    <Rating
+                      className="movie-top-right-rating"
+                      voteAverage={data.movie.voteAverage}
+                    />
 
-                    return (
-                      <div>
-                        {similarData.similar.map((item: any, index: number) => {
-                          let link = '';
+                    <div className="movie-top-right-description">
+                      <Heading as="h3">Overview</Heading>
+                      <p>{data.movie.description}</p>
+                    </div>
 
-                          if (item.id === item.externalId) {
-                            link = `/movie/${item.id}/true`;
-                          } else {
-                            link = `/movie/${item.id}`;
-                          }
-                          return (
-                            <div key={index}>
-                              <Poster image={item.poster} small />
-                              <Link to={link}>{item.title}</Link>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  }}
-                </Query>
+                    <div className="movie-top-right-action-buttons">
+                      <Mutation mutation={addFavorite}>
+                        {mutate => (
+                          <ActionButton
+                            onClick={async () => {
+                              await mutate({
+                                variables: {
+                                  movieId: data.movie.id,
+                                },
+                              });
+                            }}
+                          >
+                            <Icon icon={['far', 'heart']} />
+                          </ActionButton>
+                        )}
+                      </Mutation>
+                      <ActionButton onClick={showModal}>
+                        Add to list...
+                      </ActionButton>
+                    </div>
+                  </div>
+                </Top>
+                <SimilarMovies externalId={data.movie.externalId} />
               </div>
             );
           }}
@@ -123,3 +140,27 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
 };
 
 export default MoviePage;
+
+const Top = styled.div`
+  display: flex;
+  margin-bottom: ${props => props.theme.spacing.large};
+
+  .left {
+    min-width: 30%;
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  .movie-top-right {
+    margin-left: ${props => props.theme.spacing.large};
+
+    h3,
+    &-title,
+    &-description,
+    &-rating {
+      margin-bottom: ${props => props.theme.spacing.normal};
+    }
+  }
+`;

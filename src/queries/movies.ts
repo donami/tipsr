@@ -5,6 +5,7 @@ export default gql`
     movies {
       id
       title
+      description
       poster
       externalId
       voteAverage

@@ -10,6 +10,7 @@ type Props = {
   brand?: boolean;
   onClick?: any;
   className?: string;
+  sectionTitle?: boolean;
 };
 
 const Heading: React.SFC<Props> = ({
@@ -47,6 +48,7 @@ type ElemProps = {
   secondary?: boolean;
   accent?: boolean;
   brand?: boolean;
+  sectionTitle?: boolean;
 };
 const Wrapper = styled.h3<ElemProps>`
   text-transform: uppercase;
@@ -82,6 +84,18 @@ const Wrapper = styled.h3<ElemProps>`
           bottom: 0;
           left: 0;
         }
+      `;
+    }
+    return null;
+  }}
+
+  ${props => {
+    if (props.sectionTitle) {
+      return css`
+        text-transform: none;
+        font-size: 1.1em;
+        font-weight: bold;
+        margin-bottom: ${props => props.theme.spacing.normal};
       `;
     }
     return null;

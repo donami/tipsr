@@ -33,8 +33,13 @@ const RatingItem: React.SFC<{
 type Props = {
   initialRating?: number;
   voteAverage?: number;
+  className?: string;
 };
-const Rating: React.SFC<Props> = ({ initialRating, voteAverage }) => {
+const Rating: React.SFC<Props> = ({
+  initialRating,
+  voteAverage,
+  className,
+}) => {
   let roundedRating = 5;
   if (initialRating) {
     roundedRating = Math.round(initialRating);
@@ -56,7 +61,7 @@ const Rating: React.SFC<Props> = ({ initialRating, voteAverage }) => {
   };
 
   return (
-    <Stars>
+    <Stars className={className}>
       {[...Array(10)].map((_, index) => (
         <RatingItem
           key={index}

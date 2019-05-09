@@ -78,6 +78,7 @@ const AddMovie: React.SFC<Props> = () => {
                               title: result.title,
                               voteAverage: result.voteAverage,
                               poster: result.poster,
+                              description: result.description,
                               externalId: result.id,
                             },
                           });

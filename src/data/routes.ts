@@ -24,6 +24,8 @@ import SignOutPage from '../pages/sign-out-page/sign-out-page';
 import BrowsePage from '../pages/browse-page/browse-page';
 import ProfilePage from '../pages/profile-page/profile-page';
 import MoviePage from '../pages/movie-page/movie-page';
+import ForgotPasswordPage from '../pages/forgot-password/forgot-password';
+import { withApollo } from 'react-apollo';
 
 // ----------------------------------------------------------------------------
 
@@ -62,9 +64,14 @@ const routes: RouteProps[] = [
     path: '/signup',
   },
   {
-    component: SignOutPage,
+    component: withApollo(SignOutPage),
     exact: true,
     path: '/signout',
+  },
+  {
+    component: ForgotPasswordPage,
+    exact: true,
+    path: '/forgot-password',
   },
   {
     component: HomePage,

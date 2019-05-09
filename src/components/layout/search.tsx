@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useRef, useState, useEffect } from 'react';
 import { Query } from 'react-apollo';
+import { Link } from 'react-router-dom';
 
+import styled from '@/lib/styledComponents';
 import search from '@/queries/search';
 import Input from '@/components/ui/input';
-import { Link } from 'react-router-dom';
 
 // Hook
 function useDebounce(value: any, delay: number) {
@@ -30,6 +31,7 @@ function useDebounce(value: any, delay: number) {
 type Props = {};
 const Search: React.SFC<Props> = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const inputRef = useRef<any>(null);
   // Searching status (whether there is pending API request)
   // Debounce search term so that it only gives us latest value ...
   // ... if searchTerm has not been updated within last 500ms.
@@ -38,8 +40,9 @@ const Search: React.SFC<Props> = () => {
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   return (
-    <div>
+    <div className="search-field">
       <Input
+        ref={inputRef}
         type="text"
         placeholder="Find movie"
         onChange={e => setSearchTerm(e.target.value)}
@@ -49,21 +52,37 @@ const Search: React.SFC<Props> = () => {
         <Query query={search} variables={{ term: debouncedSearchTerm }}>
           {({ data, loading }) => {
             if (loading) {
-              return <em>Loading...</em>;
-            }
-
-            if (!data.search.length) {
-              return <em>No movies found.</em>;
+              return (
+                <Results>
+                  <em>Loading...</em>
+                </Results>
+              );
             }
 
             return (
-              <div>
-                {data.search.map((movie: any, index: number) => (
-                  <div key={index}>
-                    <Link to={`/movie/${movie.id}`}>{movie.title}</Link>
-                  </div>
-                ))}
-              </div>
+              <Results>
+                {!data.search.length && <em>No movies found.</em>}
+                {!!data.search.length && (
+                  <Fragment>
+                    {data.search.map((movie: any, index: number) => (
+                      <div key={index}>
+                        <Link
+                          onClick={() => {
+                            // Reset search
+                            if (inputRef.current) {
+                              inputRef.current.value = '';
+                            }
+                            setSearchTerm('');
+                          }}
+                          to={`/movie/${movie.id}`}
+                        >
+                          {movie.title}
+                        </Link>
+                      </div>
+                    ))}
+                  </Fragment>
+                )}
+              </Results>
             );
           }}
         </Query>
@@ -73,3 +92,19 @@ const Search: React.SFC<Props> = () => {
 };
 
 export default Search;
+
+const Results = styled.div`
+  position: absolute;
+  background-color: #fff;
+  padding: ${props => props.theme.spacing.normal};
+  color: #555;
+  min-width: 250px;
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;

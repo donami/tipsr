@@ -1,14 +1,16 @@
 import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
-import favorites from '../../../queries/favorites';
-import Loader from '../../../components/ui/loader';
 import { Link } from 'react-router-dom';
+import favorites from '@/queries/favorites';
+import Loader from '@/components/ui/loader';
+import MovieItem from '@/components/movie/movie-item';
+import Heading from '@/components/ui/heading';
 
 type Props = {};
 const FavoritePage: React.SFC<Props> = () => {
   return (
     <div>
-      <h3>FavoritePage</h3>
+      <Heading as="h3">Your favorites</Heading>
 
       <Query query={favorites}>
         {({ data, loading }) => {
@@ -19,13 +21,13 @@ const FavoritePage: React.SFC<Props> = () => {
           return (
             <Fragment>
               {data.favorites.length && (
-                <ul>
+                <div>
                   {data.favorites.map((favorite: any) => (
-                    <li key={favorite.id}>
+                    <MovieItem key={favorite.id} movie={favorite}>
                       <Link to={`/movie/${favorite.id}`}>{favorite.title}</Link>
-                    </li>
+                    </MovieItem>
                   ))}
-                </ul>
+                </div>
               )}
 
               {!data.favorites.length && <em>No favorites added yet.</em>}

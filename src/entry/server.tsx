@@ -9,6 +9,7 @@ import 'cross-fetch/polyfill';
 import { Context } from 'koa';
 
 import * as React from 'react';
+import jwt from 'jsonwebtoken';
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 
@@ -29,6 +30,8 @@ import Output from '@/lib/output';
 import { ThemeProvider } from '@/lib/styledComponents';
 import defaultTheme from '@/themes/default';
 import Html from '@/views/ssr';
+import me from '../queries/me';
+import getCurrentCredential from '../queries/get-current-credential';
 
 // ----------------------------------------------------------------------------
 
@@ -37,6 +40,9 @@ export interface IRouterContext {
   status?: number;
   url?: string;
 }
+
+const COOKIE_KEY = 'token';
+const JWT_SECRET_KEY = 'secret';
 
 export default function(output: Output) {
   // Create Koa middleware to handle React requests
@@ -49,6 +55,33 @@ export default function(output: Output) {
 
     // Create a fresh 'context' for React Router
     const routerContext: IRouterContext = {};
+
+    // This obtains the authentication credential from the signed cookie
+    const token =
+      ctx.cookies.get(COOKIE_KEY, {
+        // signed: true,
+      }) || '';
+    let decoded = null;
+    try {
+      decoded = await jwt.verify(token, JWT_SECRET_KEY);
+    } catch (err) {
+      decoded = null;
+    }
+
+    const credential = decoded
+      ? {
+          ...decoded,
+          token,
+          __typename: 'Credential',
+        }
+      : null;
+
+    client.writeQuery({
+      query: getCurrentCredential,
+      data: {
+        credential,
+      },
+    });
 
     const components = (
       <StyleSheetManager sheet={sheet.instance}>
