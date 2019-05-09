@@ -35,7 +35,6 @@ const Login: React.SFC<any> = ({ history }) => {
                     // Write our data back to the cache, if there are no errors
                     const credential = {
                       ...data.login.user,
-                      token: data.login.user.jwt,
                       __typename: 'Credential',
                     };
                     // This writes to the in memory cache the credential obtained
@@ -58,11 +57,11 @@ const Login: React.SFC<any> = ({ history }) => {
                   });
                 }
 
-                if (login && login.user && login.user.jwt) {
+                if (login && login.user && login.user.token) {
                   await fetch('http://localhost:3000/auth', {
                     method: 'POST',
                     body: JSON.stringify({
-                      token: login.user.jwt,
+                      token: login.user.token,
                       expiryInDays: 1,
                     }),
                     headers: {

@@ -8,7 +8,6 @@ export default gql`
         email
         firstName
         lastName
-        jwt
         token
       }
       error {
