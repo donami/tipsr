@@ -6,6 +6,14 @@ export default gql`
       id
       title
       poster
+      featured
+      # genres {
+      #   id
+      #   name
+      #   __typename
+      # }
+      releaseDate
+      description
       externalId
     }
   }

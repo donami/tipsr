@@ -8,6 +8,7 @@ export default gql`
         title
         poster
         backdropPath
+        featured
         description
         externalId
         releaseDate

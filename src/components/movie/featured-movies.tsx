@@ -2,34 +2,27 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
 
-import similar from '@/queries/similar';
+import movies from '@/queries/movies';
 import Poster from './poster';
 import HorizontalList from '../ui/horizontal-list';
 
-type Props = { externalId: number };
-const SimilarMovies: React.SFC<Props> = ({ externalId }) => {
+type Props = {};
+const FeaturedMovies: React.SFC<Props> = () => {
   return (
-    <Query query={similar} variables={{ externalId }}>
+    <Query query={movies} variables={{ featured: true }}>
       {({ data, loading }) => {
         return (
           <HorizontalList
-            items={data.similar}
-            title="Similar Movies"
+            items={data.movies}
+            title="Featured Movies"
             loading={loading}
             renderItem={(item: any) => {
-              let link = '';
-
-              if (item.id === item.externalId) {
-                link = `/movie/${item.id}/true`;
-              } else {
-                link = `/movie/${item.id}`;
-              }
               return (
                 <>
                   <div>
                     <Poster image={item.poster} small />
                   </div>
-                  <Link to={link}>{item.title}</Link>
+                  <Link to={`/movie/${item.id}`}>{item.title}</Link>
                 </>
               );
             }}
@@ -40,4 +33,4 @@ const SimilarMovies: React.SFC<Props> = ({ externalId }) => {
   );
 };
 
-export default SimilarMovies;
+export default FeaturedMovies;

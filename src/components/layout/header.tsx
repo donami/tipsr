@@ -61,6 +61,11 @@ const Main = styled.div`
     flex: 1;
     margin-right: 50px;
 
+    a {
+      display: flex;
+      align-items: center;
+    }
+
     img {
       max-width: 140px;
     }

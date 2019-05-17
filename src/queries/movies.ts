@@ -1,13 +1,14 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  {
-    movies {
+  query($featured: Boolean) {
+    movies(featured: $featured) {
       id
       title
       description
       poster
       backdropPath
+      featured
       releaseDate
       genres {
         id
