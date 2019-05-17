@@ -132,6 +132,11 @@ const Wrapper = styled.div`
 
 const Header = styled.header`
   display: flex;
+
+  a {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const SearchContainer = styled.div`

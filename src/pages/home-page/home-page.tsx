@@ -6,8 +6,6 @@ type Props = {};
 const HomePage: React.SFC<Props> = () => {
   return (
     <DefaultLayout>
-      <Fragment>Home Page</Fragment>
-
       <FeaturedMovies />
     </DefaultLayout>
   );

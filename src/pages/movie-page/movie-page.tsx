@@ -17,6 +17,8 @@ import SimilarMovies from '../../components/movie/similar-movies';
 import { useModal } from '@/components/modal';
 import Modal from '../../components/modal/modal';
 import MovieReviews from '../../components/movie/movie-reviews';
+import videos from '../../queries/videos';
+import Video from '../../components/ui/video';
 
 const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
   const [addedMovieId, setAddedMovieId] = useState(null);
@@ -135,6 +137,34 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
                   movieId={data.movie.id}
                   externalId={data.movie.externalId}
                 />
+                <div>
+                  <h3>Videos</h3>
+                  <Query
+                    query={videos}
+                    variables={{ externalMovieId: data.movie.externalId }}
+                  >
+                    {({ data, loading }) => {
+                      if (loading) {
+                        return <Loader />;
+                      }
+
+                      console.log(data);
+                      if (!data.videos || !data.videos.videos.length) {
+                        return null;
+                      }
+
+                      return (
+                        <>
+                          {data.videos.videos.map(
+                            (video: any, index: number) => (
+                              <Video video={video} key={index} />
+                            )
+                          )}
+                        </>
+                      );
+                    }}
+                  </Query>
+                </div>
               </div>
             );
           }}
