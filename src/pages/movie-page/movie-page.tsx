@@ -12,13 +12,12 @@ import Icon from '../../components/ui/icon';
 import ActionButton from '../../components/ui/action-button';
 import addExternalMovie from '../../mutations/add-external-movie';
 import movies from '../../queries/movies';
-import styled from '../../lib/styledComponents';
+import styled, { css } from '../../lib/styledComponents';
 import SimilarMovies from '../../components/movie/similar-movies';
 import { useModal } from '@/components/modal';
 import Modal from '../../components/modal/modal';
 import MovieReviews from '../../components/movie/movie-reviews';
-import videos from '../../queries/videos';
-import Video from '../../components/ui/video';
+import VideoList from '../../components/movie/video-list';
 
 const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
   const [addedMovieId, setAddedMovieId] = useState(null);
@@ -48,6 +47,8 @@ const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
 
 type Props = {} & RouteComponentProps<{ id: string; external: string }>;
 const MoviePage: React.SFC<Props> = ({ match }) => {
+  const [activeTab, setActiveTab] = useState('reviews');
+
   const [showModal, hideModal] = useModal(() => {
     return (
       <Modal hideModal={hideModal} header="Add to List">
@@ -133,38 +134,33 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
                   </div>
                 </Top>
                 <SimilarMovies externalId={data.movie.externalId} />
-                <MovieReviews
-                  movieId={data.movie.id}
-                  externalId={data.movie.externalId}
-                />
-                <div>
-                  <h3>Videos</h3>
-                  <Query
-                    query={videos}
-                    variables={{ externalMovieId: data.movie.externalId }}
-                  >
-                    {({ data, loading }) => {
-                      if (loading) {
-                        return <Loader />;
-                      }
-
-                      console.log(data);
-                      if (!data.videos || !data.videos.videos.length) {
-                        return null;
-                      }
-
-                      return (
-                        <>
-                          {data.videos.videos.map(
-                            (video: any, index: number) => (
-                              <Video video={video} key={index} />
-                            )
-                          )}
-                        </>
-                      );
+                <Bar>
+                  <BarItem
+                    current={activeTab === 'reviews'}
+                    onClick={() => {
+                      setActiveTab('reviews');
                     }}
-                  </Query>
-                </div>
+                  >
+                    Reviews
+                  </BarItem>
+                  <BarItem
+                    current={activeTab === 'videos'}
+                    onClick={() => {
+                      setActiveTab('videos');
+                    }}
+                  >
+                    Videos
+                  </BarItem>
+                </Bar>
+                {activeTab === 'reviews' && (
+                  <MovieReviews
+                    movieId={data.movie.id}
+                    externalId={data.movie.externalId}
+                  />
+                )}
+                {activeTab === 'videos' && (
+                  <VideoList externalMovieId={data.movie.externalId} />
+                )}
               </div>
             );
           }}
@@ -198,4 +194,46 @@ const Top = styled.div`
       margin-bottom: ${props => props.theme.spacing.normal};
     }
   }
+`;
+
+const Bar = styled.div`
+  color: #0582ca;
+  background: #daddd8;
+  border-radius: 5px;
+  margin-bottom: ${props => props.theme.spacing.large};
+  padding: 0 ${props => props.theme.spacing.normal};
+  border-bottom: #e2e2e2 2px solid;
+`;
+
+const BarItem = styled.div<{ current: boolean }>`
+  padding: ${props => props.theme.spacing.normal};
+  display: inline-block;
+  margin-right: ${props => props.theme.spacing.normal};
+  border-bottom: transparent 2px solid;
+  font-weight: 300;
+  text-transform: uppercase;
+  margin-bottom: -2px;
+  transition: all 200ms ease-in-out;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    color: #00A6FB;
+    /* color: ${props => props.theme.colors.primary}; */
+    cursor: pointer;
+  }
+
+  ${props => {
+    if (props.current) {
+      return css`
+        color: #00A6FB;
+        /* color: ${props => props.theme.colors.primary}; */
+        border-bottom: #00A6FB 2px solid;
+        /* border-bottom: ${props => props.theme.colors.primary} 2px solid; */
+      `;
+    }
+    return null;
+  }}
 `;

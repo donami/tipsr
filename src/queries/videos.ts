@@ -9,6 +9,7 @@ export default gql`
         name
         site
         type
+        size
       }
       error {
         message
