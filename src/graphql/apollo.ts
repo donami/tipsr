@@ -7,6 +7,7 @@
 import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink, split } from 'apollo-link';
+import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
@@ -15,6 +16,36 @@ import { SubscriptionClient } from 'subscriptions-transport-ws';
 
 /* Local */
 import createState from './state';
+import getCurrentCredential from '../queries/get-current-credential';
+
+const authLink = setContext((_, { headers, cache }) => {
+  // let token = null;
+  // // get the authentication token from local storage if it exists
+  // if (typeof window !== 'undefined') {
+  //   token = localStorage.getItem('token');
+  // } else {
+
+  // }
+  // // return the headers to the context so httpLink can read them
+  // return {
+  //   headers: {
+  //     ...headers,
+  //     authorization: token ? `Bearer ${token}` : "",
+  //   }
+  // }
+  const data = cache.readQuery({ query: getCurrentCredential });
+
+  let token = '';
+  if (data && data.credential && data.credential.token) {
+    token = data.credential.token;
+  }
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
 
 // ----------------------------------------------------------------------------
 
@@ -68,6 +99,8 @@ export function createClient(): ApolloClient<NormalizedCacheObject> {
       // Connect local Apollo state. This is our primary mechanism for
       // managing 'flux'/local app data, in lieu of Redux or MobX
       createState(cache),
+
+      authLink,
 
       // Split on HTTP and WebSockets
       WS_SUBSCRIPTIONS && !SERVER

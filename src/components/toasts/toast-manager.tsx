@@ -4,7 +4,10 @@ import styled, { css } from '../../lib/styledComponents';
 const Ctx = React.createContext<any>(null);
 
 const ToastContainer: React.SFC<any> = props => (
-  <div style={{ position: 'fixed', right: 0, top: 0 }} {...props} />
+  <div
+    style={{ position: 'fixed', right: 20, top: 0, zIndex: 999 }}
+    {...props}
+  />
 );
 
 const Toast: React.SFC<{ onDismiss: any; type?: string }> = ({

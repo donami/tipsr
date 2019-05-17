@@ -32,6 +32,10 @@ body {
   cursor: pointer;
 }
 
+.ReactModal__Overlay {
+  z-index: 999;
+}
+
 @keyframes loader {
   from {
     -webkit-transform: rotate(0);

@@ -1,14 +1,16 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { Query } from 'react-apollo';
 
 import Footer from '@/components/layout/footer';
 import Icon from '@/components/ui/icon';
 import Header from '@/components/layout/header';
+import Authenticated from '@/components/login/authenticated';
 import Avatar from '@/components/ui/avatar';
 import styled from '@/lib/styledComponents';
+import favorites from '@/queries/favorites';
 import Search from './search';
 import logo from './logo.png';
-import { Query } from 'react-apollo';
 import AppStateContext from '@/components/layout/app-state-context';
 
 type Props = {};
@@ -17,20 +19,22 @@ const Layout: React.SFC<Props> = ({ children }) => {
   return (
     <Wrapper>
       <Sidebar>
-        <UserInfo>
-          <UserInfoTop>
-            <Link to="/profile">
-              <Avatar
-                name="John Doe"
-                view="md"
-                avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR5s9k57Nd5TlClPRU_13nimqHCnt0J68q51T9aSz884X0raGi"
-              />
-            </Link>
-          </UserInfoTop>
-          <h3>
-            <Link to="/profile">Markus Hederström</Link>
-          </h3>
-        </UserInfo>
+        {auth && (
+          <UserInfo>
+            <UserInfoTop>
+              <Link to="/profile">
+                <Avatar
+                  name="John Doe"
+                  view="md"
+                  avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR5s9k57Nd5TlClPRU_13nimqHCnt0J68q51T9aSz884X0raGi"
+                />
+              </Link>
+            </UserInfoTop>
+            <h3>
+              <Link to="/profile">{`${auth.firstName} ${auth.lastName}`}</Link>
+            </h3>
+          </UserInfo>
+        )}
         <Navigation>
           <li>
             <Link to="/search">
@@ -49,41 +53,38 @@ const Layout: React.SFC<Props> = ({ children }) => {
             </Link>
           </li>
           <li>
-            <Link to="/">
-              <Info>
-                <Icon icon="star" fixedWidth />
-                TV Shows
-              </Info>
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
+            <Link to="/suggest">
               <Info>
                 <Icon icon="film" fixedWidth />
-                Games
+                Suggest
               </Info>
             </Link>
           </li>
         </Navigation>
         <Divider />
         <Navigation>
-          <li>
-            <Link to="/profile/favorites">
-              <Info>
-                <Icon icon={['far', 'bookmark']} fixedWidth />
-                Bookmarks
-              </Info>
-              <Attribute>25</Attribute>
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <Info>
-                <Icon icon="film" fixedWidth />
-                Movies
-              </Info>
-            </Link>
-          </li>
+          {auth && (
+            <Query query={favorites}>
+              {({ data, loading }) => {
+                if (loading) {
+                  return null;
+                }
+                return (
+                  <li>
+                    <Link to="/profile/favorites">
+                      <Info>
+                        <Icon icon={['far', 'bookmark']} fixedWidth />
+                        Bookmarks
+                      </Info>
+                      <Attribute>
+                        {data.favorites ? data.favorites.length : 0}
+                      </Attribute>
+                    </Link>
+                  </li>
+                );
+              }}
+            </Query>
+          )}
           {auth && (
             <li>
               <Link to="/admin">
@@ -94,14 +95,6 @@ const Layout: React.SFC<Props> = ({ children }) => {
               </Link>
             </li>
           )}
-          <li>
-            <Link to="/">
-              <Info>
-                <Icon icon="film" fixedWidth />
-                Games
-              </Info>
-            </Link>
-          </li>
         </Navigation>
         <LogoutContainer>
           {auth ? (
@@ -226,6 +219,8 @@ const Attribute = styled.span`
   margin-right: ${props => props.theme.spacing.small};
   padding: ${props => props.theme.spacing.tiny};
   font-size: 0.8em;
+  min-width: 12.5px;
+  text-align: center;
 `;
 
 const Divider = styled.div`

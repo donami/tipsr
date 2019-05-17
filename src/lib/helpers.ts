@@ -4,3 +4,7 @@ export const formatDate = (timestamp: string) => {
 
   return formatted;
 };
+
+export const getReleaseYear = (date: string) => {
+  return date ? new Date(date).getFullYear() : null;
+};

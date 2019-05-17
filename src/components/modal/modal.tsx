@@ -11,6 +11,7 @@ const customStyles = {
   content: {
     top: '50%',
     left: '50%',
+    zIndex: 999,
     right: 'auto',
     bottom: 'auto',
     width: '60%',

@@ -7,6 +7,13 @@ export default gql`
       title
       description
       poster
+      backdropPath
+      releaseDate
+      genres {
+        id
+        name
+        __typename
+      }
       externalId
       voteAverage
     }

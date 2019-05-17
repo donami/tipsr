@@ -57,6 +57,7 @@ const Wrapper = styled.div`
   flex-wrap: nowrap;
   overflow-x: auto;
   padding-bottom: ${props => props.theme.spacing.normal};
+  margin-bottom: ${props => props.theme.spacing.normal};
 `;
 const Item = styled.div`
   flex: 0 0 auto;

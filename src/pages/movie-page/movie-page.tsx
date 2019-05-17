@@ -16,6 +16,7 @@ import styled from '../../lib/styledComponents';
 import SimilarMovies from '../../components/movie/similar-movies';
 import { useModal } from '@/components/modal';
 import Modal from '../../components/modal/modal';
+import MovieReviews from '../../components/movie/movie-reviews';
 
 const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
   const [addedMovieId, setAddedMovieId] = useState(null);
@@ -47,7 +48,7 @@ type Props = {} & RouteComponentProps<{ id: string; external: string }>;
 const MoviePage: React.SFC<Props> = ({ match }) => {
   const [showModal, hideModal] = useModal(() => {
     return (
-      <Modal hideModal={hideModal} header="Edit Category">
+      <Modal hideModal={hideModal} header="Add to List">
         <AddToList movieId={+match.params.id} />
       </Modal>
     );
@@ -130,6 +131,10 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
                   </div>
                 </Top>
                 <SimilarMovies externalId={data.movie.externalId} />
+                <MovieReviews
+                  movieId={data.movie.id}
+                  externalId={data.movie.externalId}
+                />
               </div>
             );
           }}

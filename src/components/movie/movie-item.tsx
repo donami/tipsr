@@ -52,7 +52,8 @@ const Wrapper = styled.div`
   padding: ${props => props.theme.spacing.normal};
 
   .movie-poster-container {
-    min-width: 20%;
+    min-width: 120px;
+    max-width: 120px;
   }
 
   .movie-item-info-container {

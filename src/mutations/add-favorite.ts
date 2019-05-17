@@ -7,6 +7,8 @@ export default gql`
         id
         title
         description
+        poster
+        externalId
         __typename
       }
       error {

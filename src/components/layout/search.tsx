@@ -99,6 +99,7 @@ const Results = styled.div`
   padding: ${props => props.theme.spacing.normal};
   color: #555;
   min-width: 250px;
+  z-index: 9999;
 
   a {
     text-decoration: none;

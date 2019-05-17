@@ -26,6 +26,7 @@ import ProfilePage from '../pages/profile-page/profile-page';
 import MoviePage from '../pages/movie-page/movie-page';
 import ForgotPasswordPage from '../pages/forgot-password/forgot-password';
 import { withApollo } from 'react-apollo';
+import SuggestPage from '../pages/suggest-page/suggest-page';
 
 // ----------------------------------------------------------------------------
 
@@ -42,6 +43,11 @@ const routes: RouteProps[] = [
     component: BrowsePage,
     exact: true,
     path: '/browse',
+  },
+  {
+    component: SuggestPage,
+    exact: true,
+    path: '/suggest',
   },
   {
     component: ProfilePage,

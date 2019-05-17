@@ -5,6 +5,8 @@ type Props = {
   loading?: boolean;
   primary?: boolean;
   secondary?: boolean;
+  icon?: boolean;
+  circular?: booelan;
 } & HTMLProps<HTMLButtonElement>;
 
 const Button = styled.button<Props>`
@@ -116,6 +118,24 @@ const Button = styled.button<Props>`
           -webkit-box-shadow: 0 0 0 1px transparent;
           box-shadow: 0 0 0 1px transparent;
         }
+      `;
+    }
+    return null;
+  }}
+
+  ${props => {
+    if (props.icon) {
+      return css`
+        padding: 0.78571429em 0.78571429em 0.78571429em;
+      `;
+    }
+    return null;
+  }}
+
+  ${props => {
+    if (props.circular) {
+      return css`
+        border-radius: 10em;
       `;
     }
     return null;

@@ -23,6 +23,8 @@ import {
   faCaretRight,
   faCaretDown,
   faWindowClose,
+  faRandom,
+  faFilter,
   faStar,
   faArrowCircleLeft,
   faExternalLinkAlt,
@@ -49,6 +51,7 @@ import { GlobalStyles } from '@/global/styles';
 import routes from '@/data/routes';
 import styled from '@/lib/styledComponents';
 import getCurrentCredential from '../queries/get-current-credential';
+import { filter } from 'graphql-anywhere';
 
 // ----------------------------------------------------------------------------
 
@@ -57,7 +60,9 @@ library.add(
   faPlusSquare,
   faPlus,
   faBookmark,
+  faRandom,
   faStar,
+  faFilter,
   farStar,
   faHeart,
   farHeart,
