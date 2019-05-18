@@ -9,12 +9,14 @@ type Props = {
   items: any;
   loading?: boolean;
   title?: string;
+  className?: string;
 };
 const HorizontalList: React.SFC<Props> = ({
   renderItem,
   items,
   title,
   loading = false,
+  className,
 }) => {
   if (loading) {
     return <Loader />;
@@ -24,14 +26,14 @@ const HorizontalList: React.SFC<Props> = ({
     return null;
   }
   return (
-    <React.Fragment>
+    <div className={className || 'horizontal-list'}>
       {title && <Heading sectionTitle>{title}</Heading>}
       <Wrapper>
         {items.map((item: any, index: number) => {
           return <Item key={index}>{renderItem(item)}</Item>;
         })}
       </Wrapper>
-    </React.Fragment>
+    </div>
   );
 };
 

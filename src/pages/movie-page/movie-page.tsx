@@ -59,118 +59,129 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
 
   return (
     <DefaultLayout>
-      {!!match.params.external && (
-        <Mutation
-          mutation={addExternalMovie}
-          update={(proxy, { data: { addExternalMovie } }) => {
-            try {
-              const data: any = proxy.readQuery({ query: movies });
-              proxy.writeQuery({
-                query: movies,
-                data: {
-                  ...data,
-                  movies: data.movies.concat(addExternalMovie.movie),
-                },
-              });
-            } catch (error) {}
-          }}
-        >
-          {mutate => (
-            <GetExternalMovie externalId={match.params.id} mutate={mutate} />
-          )}
-        </Mutation>
-      )}
-      {!match.params.external && (
-        <Query query={movie} variables={{ id: +match.params.id }}>
-          {({ data, loading }) => {
-            if (loading) {
-              return <Loader />;
-            }
+      <Wrapper>
+        {!!match.params.external && (
+          <Mutation
+            mutation={addExternalMovie}
+            update={(proxy, { data: { addExternalMovie } }) => {
+              try {
+                const data: any = proxy.readQuery({ query: movies });
+                proxy.writeQuery({
+                  query: movies,
+                  data: {
+                    ...data,
+                    movies: data.movies.concat(addExternalMovie.movie),
+                  },
+                });
+              } catch (error) {}
+            }}
+          >
+            {mutate => (
+              <GetExternalMovie externalId={match.params.id} mutate={mutate} />
+            )}
+          </Mutation>
+        )}
+        {!match.params.external && (
+          <Query query={movie} variables={{ id: +match.params.id }}>
+            {({ data, loading }) => {
+              if (loading) {
+                return <Loader />;
+              }
 
-            if (!data.movie) {
-              return <em>Oops, this page does not exist.</em>;
-            }
-            return (
-              <div>
-                <Top className="movie-top">
-                  <div className="left">
-                    <img src={data.movie.poster} alt="" />
-                  </div>
-                  <div className="movie-top-right">
-                    <Heading as="h2" className="movie-top-right-title">
-                      {data.movie.title}
-                    </Heading>
-
-                    <Rating
-                      className="movie-top-right-rating"
-                      voteAverage={data.movie.voteAverage}
-                    />
-
-                    <div className="movie-top-right-description">
-                      <Heading as="h3">Overview</Heading>
-                      <p>{data.movie.description}</p>
+              if (!data.movie) {
+                return <em>Oops, this page does not exist.</em>;
+              }
+              return (
+                <div>
+                  <Top className="movie-top">
+                    <div className="left">
+                      <img src={data.movie.poster} alt="" />
                     </div>
+                    <div className="movie-top-right">
+                      <Heading as="h2" className="movie-top-right-title">
+                        {data.movie.title}
+                      </Heading>
 
-                    <div className="movie-top-right-action-buttons">
-                      <Mutation mutation={addFavorite}>
-                        {mutate => (
-                          <ActionButton
-                            onClick={async () => {
-                              await mutate({
-                                variables: {
-                                  movieId: data.movie.id,
-                                },
-                              });
-                            }}
-                          >
-                            <Icon icon={['far', 'heart']} />
-                          </ActionButton>
-                        )}
-                      </Mutation>
-                      <ActionButton onClick={showModal}>
-                        Add to list...
-                      </ActionButton>
+                      <Rating
+                        className="movie-top-right-rating"
+                        voteAverage={data.movie.voteAverage}
+                      />
+
+                      <div className="movie-top-right-description">
+                        <Heading as="h3">Overview</Heading>
+                        <p>{data.movie.description}</p>
+                      </div>
+
+                      <div className="movie-top-right-action-buttons">
+                        <Mutation mutation={addFavorite}>
+                          {mutate => (
+                            <ActionButton
+                              onClick={async () => {
+                                await mutate({
+                                  variables: {
+                                    movieId: data.movie.id,
+                                  },
+                                });
+                              }}
+                            >
+                              <Icon icon={['far', 'heart']} />
+                            </ActionButton>
+                          )}
+                        </Mutation>
+                        <ActionButton onClick={showModal}>
+                          Add to list...
+                        </ActionButton>
+                      </div>
                     </div>
-                  </div>
-                </Top>
-                <SimilarMovies externalId={data.movie.externalId} />
-                <Bar>
-                  <BarItem
-                    current={activeTab === 'reviews'}
-                    onClick={() => {
-                      setActiveTab('reviews');
-                    }}
-                  >
-                    Reviews
-                  </BarItem>
-                  <BarItem
-                    current={activeTab === 'videos'}
-                    onClick={() => {
-                      setActiveTab('videos');
-                    }}
-                  >
-                    Videos
-                  </BarItem>
-                </Bar>
-                {activeTab === 'reviews' && (
-                  <MovieReviews
-                    movieId={data.movie.id}
+                  </Top>
+                  <SimilarMovies
+                    className="similar-movies"
                     externalId={data.movie.externalId}
                   />
-                )}
-                {activeTab === 'videos' && (
-                  <VideoList externalMovieId={data.movie.externalId} />
-                )}
-              </div>
-            );
-          }}
-        </Query>
-      )}
+                  <Bar>
+                    <BarItem
+                      current={activeTab === 'reviews'}
+                      onClick={() => {
+                        setActiveTab('reviews');
+                      }}
+                    >
+                      Reviews
+                    </BarItem>
+                    <BarItem
+                      current={activeTab === 'videos'}
+                      onClick={() => {
+                        setActiveTab('videos');
+                      }}
+                    >
+                      Videos
+                    </BarItem>
+                  </Bar>
+                  {activeTab === 'reviews' && (
+                    <MovieReviews
+                      movieId={data.movie.id}
+                      externalId={data.movie.externalId}
+                    />
+                  )}
+                  {activeTab === 'videos' && (
+                    <VideoList externalMovieId={data.movie.externalId} />
+                  )}
+                </div>
+              );
+            }}
+          </Query>
+        )}
+      </Wrapper>
     </DefaultLayout>
   );
 };
 
 export default MoviePage;
+
+const Wrapper = styled.div`
+  .similar-movies {
+    margin-bottom: ${props => props.theme.spacing.large};
+  }
+`;
 
 const Top = styled.div`
   display: flex;
