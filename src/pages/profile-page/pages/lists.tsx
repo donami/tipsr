@@ -4,6 +4,8 @@ import lists from '@/queries/lists';
 import Loader from '@/components/ui/loader';
 import { Link } from 'react-router-dom';
 import removeList from '../../../mutations/remove-list';
+import styled from '../../../lib/styledComponents';
+import Icon from '@/components/ui/icon';
 
 type Props = {};
 const ListsPage: React.SFC<Props> = () => {
@@ -21,7 +23,7 @@ const ListsPage: React.SFC<Props> = () => {
           }
 
           return (
-            <div>
+            <List>
               <Mutation
                 mutation={removeList}
                 update={(proxy, { data: { removeList } }: any) => {
@@ -40,11 +42,13 @@ const ListsPage: React.SFC<Props> = () => {
                 {mutate => (
                   <Fragment>
                     {data.lists.map(item => (
-                      <div key={item.id}>
+                      <ListItem key={item.id}>
                         <Link to={`/profile/list/${item.id}`}>
                           {item.title}
                         </Link>
-                        <span
+                        <Icon
+                          title="Delete list"
+                          icon="trash"
                           onClick={() => {
                             mutate({
                               variables: {
@@ -52,15 +56,13 @@ const ListsPage: React.SFC<Props> = () => {
                               },
                             });
                           }}
-                        >
-                          Remove
-                        </span>
-                      </div>
+                        />
+                      </ListItem>
                     ))}
                   </Fragment>
                 )}
               </Mutation>
-            </div>
+            </List>
           );
         }}
       </Query>
@@ -69,3 +71,31 @@ const ListsPage: React.SFC<Props> = () => {
 };
 
 export default ListsPage;
+
+const List = styled.div`
+  max-width: 400px;
+`;
+
+const ListItem = styled.div`
+  display: flex;
+  margin-bottom: ${props => props.theme.spacing.small};
+  justify-content: space-between;
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  i,
+  svg {
+    opacity: 0.8;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+`;

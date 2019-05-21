@@ -23,11 +23,7 @@ const Layout: React.SFC<Props> = ({ children }) => {
           <UserInfo>
             <UserInfoTop>
               <Link to="/profile">
-                <Avatar
-                  name="John Doe"
-                  view="md"
-                  avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR5s9k57Nd5TlClPRU_13nimqHCnt0J68q51T9aSz884X0raGi"
-                />
+                <Avatar name={`${auth.firstName} ${auth.lastName}`} view="md" />
               </Link>
             </UserInfoTop>
             <h3>
@@ -36,14 +32,14 @@ const Layout: React.SFC<Props> = ({ children }) => {
           </UserInfo>
         )}
         <Navigation>
-          <li>
+          {/* <li>
             <Link to="/search">
               <Info>
                 <Icon icon="search" fixedWidth />
                 Search
               </Info>
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link to="/browse">
               <Info>

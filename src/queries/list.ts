@@ -8,6 +8,7 @@ export default gql`
       movies {
         id
         title
+        poster
       }
       __typename
     }

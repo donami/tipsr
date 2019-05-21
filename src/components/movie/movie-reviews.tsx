@@ -21,6 +21,10 @@ const MovieReviews: React.SFC<Props> = ({ externalId }) => {
             return <Loader />;
           }
 
+          if (!data.reviews || !data.reviews.reviews) {
+            return <p>No reviews written yet...</p>;
+          }
+
           return (
             <>
               {data.reviews.reviews.map((review: any) => (
