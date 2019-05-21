@@ -58,7 +58,7 @@ const Login: React.SFC<any> = ({ history }) => {
                 }
 
                 if (login && login.user && login.user.token) {
-                  await fetch('http://localhost:3000/auth', {
+                  await fetch(`${process.env.CLIENT_URL}/auth`, {
                     method: 'POST',
                     body: JSON.stringify({
                       token: login.user.token,
