@@ -31,6 +31,11 @@ const Layout: React.SFC<Props> = ({ children }) => {
             </h3>
           </UserInfo>
         )}
+        {!auth && (
+          <MenuTop>
+            <h3>Menu</h3>
+          </MenuTop>
+        )}
         <Navigation>
           {/* <li>
             <Link to="/search">
@@ -81,7 +86,7 @@ const Layout: React.SFC<Props> = ({ children }) => {
               }}
             </Query>
           )}
-          {auth && (
+          {auth && auth.role === 'SYSADMIN' && (
             <li>
               <Link to="/admin">
                 <Info>
@@ -255,4 +260,14 @@ const Content = styled.div`
   /* display: flex;
   align-items: flex-start;
   height: 100%; */
+`;
+
+const MenuTop = styled.div`
+  margin: ${props => props.theme.spacing.large} 0;
+
+  h3 {
+    text-align: center;
+    font-weight: 300;
+    text-transform: uppercase;
+  }
 `;

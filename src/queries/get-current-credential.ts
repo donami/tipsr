@@ -6,6 +6,7 @@ export default gql`
       email
       firstName
       lastName
+      role
       id
       __typename
       token

@@ -34,13 +34,13 @@ const ProfilePage: React.SFC<Props & RouteComponentProps> = ({
               </h4>
               <Stats>
                 <div>
-                  <span>1,022</span> reviews
+                  <span>0</span> reviews
                 </div>
                 <div>
-                  <span>642</span> followers
+                  <span>0</span> followers
                 </div>
                 <div>
-                  <span>1,022</span> reviews
+                  <span>0</span> reviews
                 </div>
               </Stats>
             </ProfileDetailsWrapper>

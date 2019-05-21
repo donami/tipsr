@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import DefaultLayout from '@/components/layout/default-layout';
 import { Query, Mutation } from 'react-apollo';
 import movie from '../../queries/movie';
@@ -18,6 +18,7 @@ import { useModal } from '@/components/modal';
 import Modal from '../../components/modal/modal';
 import MovieReviews from '../../components/movie/movie-reviews';
 import VideoList from '../../components/movie/video-list';
+import AppStateContext from '../../components/layout/app-state-context';
 
 const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
   const [addedMovieId, setAddedMovieId] = useState(null);
@@ -48,6 +49,7 @@ const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
 type Props = {} & RouteComponentProps<{ id: string; external: string }>;
 const MoviePage: React.SFC<Props> = ({ match }) => {
   const [activeTab, setActiveTab] = useState('reviews');
+  const { auth } = useContext(AppStateContext);
 
   const [showModal, hideModal] = useModal(() => {
     return (
@@ -128,9 +130,11 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
                             </ActionButton>
                           )}
                         </Mutation>
-                        <ActionButton onClick={showModal}>
-                          Add to list...
-                        </ActionButton>
+                        {auth && (
+                          <ActionButton onClick={showModal}>
+                            Add to list...
+                          </ActionButton>
+                        )}
                       </div>
                     </div>
                   </Top>
@@ -156,15 +160,17 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
                       Videos
                     </BarItem>
                   </Bar>
-                  {activeTab === 'reviews' && (
-                    <MovieReviews
-                      movieId={data.movie.id}
-                      externalId={data.movie.externalId}
-                    />
-                  )}
-                  {activeTab === 'videos' && (
-                    <VideoList externalMovieId={data.movie.externalId} />
-                  )}
+                  <BarContent>
+                    {activeTab === 'reviews' && (
+                      <MovieReviews
+                        movieId={data.movie.id}
+                        externalId={data.movie.externalId}
+                      />
+                    )}
+                    {activeTab === 'videos' && (
+                      <VideoList externalMovieId={data.movie.externalId} />
+                    )}
+                  </BarContent>
                 </div>
               );
             }}
@@ -208,43 +214,31 @@ const Top = styled.div`
 `;
 
 const Bar = styled.div`
-  color: #0582ca;
-  background: #daddd8;
-  border-radius: 5px;
-  margin-bottom: ${props => props.theme.spacing.large};
-  padding: 0 ${props => props.theme.spacing.normal};
-  border-bottom: #e2e2e2 2px solid;
+  border-bottom: ${props => props.theme.colors.primary} 1px solid;
 `;
 
 const BarItem = styled.div<{ current: boolean }>`
   padding: ${props => props.theme.spacing.normal};
   display: inline-block;
-  margin-right: ${props => props.theme.spacing.normal};
-  border-bottom: transparent 2px solid;
-  font-weight: 300;
-  text-transform: uppercase;
-  margin-bottom: -2px;
-  transition: all 200ms ease-in-out;
-
-  &:last-child {
-    margin-right: 0;
-  }
+  cursor: pointer;
+  text-decoration: none;
+  color: #fff;
 
   &:hover {
-    color: #00A6FB;
-    /* color: ${props => props.theme.colors.primary}; */
-    cursor: pointer;
+    opacity: 0.8;
   }
 
   ${props => {
     if (props.current) {
       return css`
-        color: #00A6FB;
-        /* color: ${props => props.theme.colors.primary}; */
-        border-bottom: #00A6FB 2px solid;
-        /* border-bottom: ${props => props.theme.colors.primary} 2px solid; */
+        color: ${props => props.theme.colors.primary};
+        font-weight: bold;
       `;
     }
     return null;
   }}
+`;
+
+const BarContent = styled.div`
+  padding: 40px;
 `;
