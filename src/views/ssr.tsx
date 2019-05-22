@@ -6,8 +6,8 @@
 // IMPORTS
 
 /* NPM */
-import * as React from "react";
-import { HelmetData } from "react-helmet";
+import * as React from 'react';
+import { HelmetData } from 'react-helmet';
 
 // ----------------------------------------------------------------------------
 
@@ -47,6 +47,10 @@ export default class Html extends React.PureComponent<IHtmlProps> {
           {styles}
           {helmet.script.toComponent()}
           {helmet.noscript.toComponent()}
+          <script
+            async
+            src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          />
         </head>
         <body {...helmet.bodyAttributes.toComponent()}>
           <div id="root" dangerouslySetInnerHTML={{ __html: html }} />
@@ -55,8 +59,8 @@ export default class Html extends React.PureComponent<IHtmlProps> {
               __html: Object.keys(window).reduce(
                 (out, key) =>
                   (out += `window.${key}=${JSON.stringify(window[key])};`),
-                ""
-              )
+                ''
+              ),
             }}
           />
         </body>

@@ -81,7 +81,19 @@ library.add(
 const Root = () => (
   <Wrapper>
     <GlobalStyles />
-    <Helmet>
+    <Helmet
+      script={[
+        {
+          type: 'text/javascript',
+          innerHTML: `
+            (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-5052932671243699",
+              enable_page_level_ads: true
+            });
+          `,
+        },
+      ]}
+    >
       <title>Find your next favorite movie | Spot-movie.com</title>
     </Helmet>
     <ScrollTop>
