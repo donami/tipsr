@@ -82,7 +82,7 @@ const Root = () => (
   <Wrapper>
     <GlobalStyles />
     <Helmet>
-      <title>Cinemasuggest.io</title>
+      <title>Find your next favorite movie | Spot-movie.com</title>
     </Helmet>
     <ScrollTop>
       <Query query={getCurrentCredential} fetchPolicy="cache-only">

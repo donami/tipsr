@@ -20,6 +20,7 @@ import Modal from '../../components/modal/modal';
 import MovieReviews from '../../components/movie/movie-reviews';
 import VideoList from '../../components/movie/video-list';
 import AppStateContext from '../../components/layout/app-state-context';
+import MovieGenres from '../../components/movie/movie-genres';
 import Button from '../../components/ui/button';
 
 const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
@@ -115,6 +116,7 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
 
                       <div className="movie-top-right-description">
                         <Heading as="h3">Overview</Heading>
+                        <MovieGenres genres={data.movie.genres || []} />
                         <p>{data.movie.description}</p>
                       </div>
 

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import Login from '@/components/login/login';
 import styled from '../../lib/styledComponents';
 
-import logo from '../../components/layout/logo.png';
+import logo from '../../components/layout/logo-dark.png';
 
 const LoginPage = () => {
   return (
