@@ -86,6 +86,16 @@ const Root = () => (
         {
           type: 'text/javascript',
           innerHTML: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-140661279-1');
+          `,
+        },
+        {
+          type: 'text/javascript',
+          innerHTML: `
             (adsbygoogle = window.adsbygoogle || []).push({
               google_ad_client: "ca-pub-5052932671243699",
               enable_page_level_ads: true
@@ -95,6 +105,10 @@ const Root = () => (
       ]}
     >
       <title>Find your next favorite movie | Spot-movie.com</title>
+      <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=UA-140661279-1"
+      />
     </Helmet>
     <ScrollTop>
       <Query query={getCurrentCredential} fetchPolicy="cache-only">
