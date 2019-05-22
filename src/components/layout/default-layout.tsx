@@ -111,6 +111,16 @@ const Layout: React.SFC<Props> = ({ children }) => {
               </Link>
             </li>
           )}
+          {!auth && (
+            <li>
+              <Link to="/signup">
+                <Info>
+                  {/* <Icon icon={['far', 'bookmark']} fixedWidth /> */}
+                  Signup
+                </Info>
+              </Link>
+            </li>
+          )}
         </Navigation>
         <LogoutContainer>
           {auth ? (
