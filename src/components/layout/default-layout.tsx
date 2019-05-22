@@ -48,19 +48,34 @@ const Layout: React.SFC<Props> = ({ children }) => {
           <li>
             <Link to="/browse">
               <Info>
-                <Icon icon="film" fixedWidth />
+                {/* <Icon icon="film" fixedWidth /> */}
                 Browse
+              </Info>
+            </Link>
+          </li>
+          <li>
+            <Link to="/upcoming">
+              <Info>
+                {/* <Icon icon="film" fixedWidth /> */}
+                Upcoming
               </Info>
             </Link>
           </li>
           <li>
             <Link to="/suggest">
               <Info>
-                <Icon icon="film" fixedWidth />
-                Suggest
+                {/* <Icon icon="film" fixedWidth /> */}
+                Discover
               </Info>
             </Link>
           </li>
+          {/* <li>
+            <Link to="/watch-later">
+              <Info>
+                Watch Later
+              </Info>
+            </Link>
+          </li> */}
         </Navigation>
         <Divider />
         <Navigation>

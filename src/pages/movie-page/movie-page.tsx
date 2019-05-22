@@ -11,6 +11,7 @@ import Rating from '../../components/ui/rating';
 import Icon from '../../components/ui/icon';
 import ActionButton from '../../components/ui/action-button';
 import addExternalMovie from '../../mutations/add-external-movie';
+import updateMovie from '../../mutations/update-movie';
 import movies from '../../queries/movies';
 import styled, { css } from '../../lib/styledComponents';
 import SimilarMovies from '../../components/movie/similar-movies';
@@ -19,6 +20,7 @@ import Modal from '../../components/modal/modal';
 import MovieReviews from '../../components/movie/movie-reviews';
 import VideoList from '../../components/movie/video-list';
 import AppStateContext from '../../components/layout/app-state-context';
+import Button from '../../components/ui/button';
 
 const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
   const [addedMovieId, setAddedMovieId] = useState(null);
@@ -49,6 +51,8 @@ const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
 type Props = {} & RouteComponentProps<{ id: string; external: string }>;
 const MoviePage: React.SFC<Props> = ({ match }) => {
   const [activeTab, setActiveTab] = useState('reviews');
+  const [isEditing, setIsEditing] = useState(false);
+  const [form, setForm] = useState({ featured: false });
   const { auth } = useContext(AppStateContext);
 
   const [showModal, hideModal] = useModal(() => {
@@ -135,8 +139,53 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
                             Add to list...
                           </ActionButton>
                         )}
+
+                        {auth && isEditing && auth.role === 'SYSADMIN' && (
+                          <Mutation mutation={updateMovie}>
+                            {mutate => (
+                              <>
+                                <input
+                                  defaultChecked={data.movie.featured}
+                                  type="checkbox"
+                                  onChange={e => {
+                                    setForm({
+                                      ...form,
+                                      featured: e.target.checked,
+                                    });
+                                  }}
+                                />
+                                Featured
+                                <Button
+                                  type="button"
+                                  primary
+                                  onClick={async () => {
+                                    await mutate({
+                                      variables: {
+                                        movieId: data.movie.id,
+                                        featured: form.featured,
+                                      },
+                                    });
+                                    setIsEditing(false);
+                                  }}
+                                >
+                                  Save
+                                </Button>
+                              </>
+                            )}
+                          </Mutation>
+                        )}
                       </div>
                     </div>
+                    {auth && auth.role === 'SYSADMIN' && (
+                      <div className="movie-top-actions">
+                        <Button
+                          type="button"
+                          onClick={() => setIsEditing(!isEditing)}
+                        >
+                          {isEditing ? 'Cancel' : 'Edit'}
+                        </Button>
+                      </div>
+                    )}
                   </Top>
                   <SimilarMovies
                     className="similar-movies"

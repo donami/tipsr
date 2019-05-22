@@ -27,6 +27,7 @@ import MoviePage from '../pages/movie-page/movie-page';
 import ForgotPasswordPage from '../pages/forgot-password/forgot-password';
 import { withApollo } from 'react-apollo';
 import SuggestPage from '../pages/suggest-page/suggest-page';
+import UpcomingPage from '../pages/upcoming-page/upcoming-page';
 
 // ----------------------------------------------------------------------------
 
@@ -48,6 +49,11 @@ const routes: RouteProps[] = [
     component: SuggestPage,
     exact: true,
     path: '/suggest',
+  },
+  {
+    component: UpcomingPage,
+    exact: true,
+    path: '/upcoming',
   },
   {
     component: ProfilePage,

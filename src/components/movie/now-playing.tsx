@@ -4,12 +4,13 @@ import styled from '../../lib/styledComponents';
 import { Query } from 'react-apollo';
 import nowPlayingQuery from '@/queries/now-playing';
 import Loader from '@/components/ui/loader';
+import Heading from '../ui/heading';
 
 type Props = { className?: string };
 const NowPlaying: React.SFC<Props> = ({ className }) => {
   return (
     <Wrapper className={className || 'now-playing'}>
-      <h3>Now Playing</h3>
+      <Heading sectionTitle>Now Playing</Heading>
       <Query query={nowPlayingQuery}>
         {({ data, loading }) => {
           if (loading) {
@@ -20,13 +21,21 @@ const NowPlaying: React.SFC<Props> = ({ className }) => {
 
           return (
             <Movies>
-              {movies.map((movie: any, index: number) => (
-                <Movie image={movie.backdropPath} key={index}>
-                  <Description>
-                    <Link to={`/movie/${movie.id}/true`}>{movie.title}</Link>
-                  </Description>
-                </Movie>
-              ))}
+              {movies.map((movie: any, index: number) => {
+                let link = '';
+                if (movie.id === movie.externalId) {
+                  link = `/movie/${movie.id}/true`;
+                } else {
+                  link = `/movie/${movie.id}`;
+                }
+                return (
+                  <Movie to={link} image={movie.backdropPath} key={index}>
+                    <Description>
+                      <div>{movie.title}</div>
+                    </Description>
+                  </Movie>
+                );
+              })}
             </Movies>
           );
         }}
@@ -46,17 +55,25 @@ const Movies = styled.div`
   display: flex;
   flex-wrap: wrap;
 
-  > div {
+  > div,
+  > a {
     flex: 1;
     min-width: 50%;
   }
 `;
-const Movie = styled.div<{ image: string }>`
+const Movie = styled(Link)<{ image: string }>`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-image: url(${props => props.image});
   position: relative;
+  display: block;
+  color: #fff;
+
+  &:hover {
+    opacity: 0.8;
+    color: ${props => props.theme.colors.primary} !important;
+  }
 `;
 
 const Description = styled.div`
@@ -70,9 +87,8 @@ const Description = styled.div`
   padding: ${props => props.theme.spacing.normal};
   transition: all 200ms ease-in-out;
 
-  a {
+  > div {
     text-decoration: none;
-    color: #fff;
 
     &:hover {
       color: ${props => props.theme.colors.primary};
