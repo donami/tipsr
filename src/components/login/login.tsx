@@ -58,21 +58,22 @@ const Login: React.SFC<any> = ({ history }) => {
                 }
 
                 if (login && login.user && login.user.token) {
-                  await fetch(
-                    // `${process.env.CLIENT_URL || 'http://localhost:3000'}/auth`,
-                    'http://www.spot-movie.com/auth',
-                    {
-                      method: 'POST',
-                      body: JSON.stringify({
-                        token: login.user.token,
-                        expiryInDays: 1,
-                      }),
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      credentials: 'same-origin',
-                    }
-                  );
+                  const url =
+                    typeof window !== 'undefined'
+                      ? `${window.location.origin}/auth`
+                      : 'http://localhost:3000/auth';
+
+                  await fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                      token: login.user.token,
+                      expiryInDays: 1,
+                    }),
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    credentials: 'same-origin',
+                  });
 
                   history.push('/admin');
                 }
