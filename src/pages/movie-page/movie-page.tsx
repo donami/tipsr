@@ -243,17 +243,33 @@ const Wrapper = styled.div`
 const Top = styled.div`
   display: flex;
   margin-bottom: ${props => props.theme.spacing.large};
+  flex-wrap: wrap;
 
   .left {
-    min-width: 30%;
-
+    min-width: 180px;
+    max-width: 180px;
     img {
       max-width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      min-width: 100%;
+      max-width: 100%;
+
+      img {
+        max-width: 50%;
+      }
     }
   }
 
   .movie-top-right {
     margin-left: ${props => props.theme.spacing.large};
+    flex: 1;
+
+    @media (max-width: 600px) {
+      min-width: 100%;
+      margin: ${props => props.theme.spacing.normal} 0;
+    }
 
     h3,
     &-title,

@@ -54,11 +54,20 @@ const Wrapper = styled.div`
   border-radius: 4px;
   margin-bottom: ${props => props.theme.spacing.normal};
   display: flex;
+  flex-wrap: wrap;
 `;
 const Thumb = styled.div`
   flex: 1;
   max-width: 400px;
   margin-right: ${props => props.theme.spacing.normal};
+
+  @media (max-width: 1180px) {
+    min-width: 100%;
+    max-width: 100%;
+    text-align: center;
+    margin-right: 0;
+    order: 2;
+  }
 `;
 const Content = styled.div`
   flex: 1;

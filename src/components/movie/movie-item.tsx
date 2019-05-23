@@ -47,6 +47,7 @@ export default MovieItem;
 
 const Wrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   background-color: #2e2e2e;
   margin-bottom: ${props => props.theme.spacing.normal};
   padding: ${props => props.theme.spacing.normal};
@@ -54,13 +55,25 @@ const Wrapper = styled.div`
   .movie-poster-container {
     min-width: 120px;
     max-width: 120px;
+
+    @media (max-width: 600px) {
+      min-width: 100%;
+      text-align: center;
+      margin-bottom: ${props => props.theme.spacing.normal};
+    }
   }
 
   .movie-item-info-container {
     margin-left: ${props => props.theme.spacing.normal};
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: space-between;
+
+    @media (max-width: 600px) {
+      min-width: 100%;
+      margin-left: 0;
+    }
 
     h5 {
       font-size: 1em;

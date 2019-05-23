@@ -63,14 +63,21 @@ const Wrapper = styled.div`
 
 const Movie = styled.div`
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: ${props => props.theme.spacing.normal};
 `;
 const PosterWrapper = styled.div`
   margin-right: ${props => props.theme.spacing.normal};
 
+  @media (max-width: 600px) {
+    min-width: 100%;
+    text-align: center;
+  }
+
   img {
     transition: all 200ms ease-in-out;
     max-width: 140px;
+    min-width: 100px;
 
     &:hover {
       opacity: 0.8;

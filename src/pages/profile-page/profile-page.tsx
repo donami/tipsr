@@ -136,6 +136,13 @@ const Stats = styled.div`
   display: flex;
   justify-content: space-between;
   color: #555;
+  flex-wrap: wrap;
+
+  > div {
+    @media (max-width: 600px) {
+      min-width: 100%;
+    }
+  }
 
   span {
     font-size: 1.4em;

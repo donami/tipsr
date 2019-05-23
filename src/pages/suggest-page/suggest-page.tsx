@@ -358,6 +358,11 @@ const Backdrop = styled.div<{ backdropPath: string }>`
       /* background-color: rgba(232, 236, 241, 0.2); */
       background-color: rgba(0, 0, 0, 0.6);
 
+      @media (max-width: 600px) {
+        position: unset;
+        flex-wrap: wrap;
+      }
+
       > div {
         margin-right: 20px;
       }
