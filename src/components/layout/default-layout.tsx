@@ -1,138 +1,29 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
+import styled from '@/lib/styledComponents';
 
 import Footer from '@/components/layout/footer';
-import Icon from '@/components/ui/icon';
 import Header from '@/components/layout/header';
-import Authenticated from '@/components/login/authenticated';
-import Avatar from '@/components/ui/avatar';
-import styled from '@/lib/styledComponents';
-import favorites from '@/queries/favorites';
 import Search from './search';
 import logo from './logo.png';
 import AppStateContext from '@/components/layout/app-state-context';
+import SidebarTablet from '@/components/layout/sidebar/sidebar-tablet';
+import Sidebar from '@/components/layout/sidebar/sidebar';
 
 type Props = {};
 const Layout: React.SFC<Props> = ({ children }) => {
   const { auth } = useContext(AppStateContext);
   return (
     <Wrapper>
-      <Sidebar>
-        {auth && (
-          <UserInfo>
-            <UserInfoTop>
-              <Link to="/profile">
-                <Avatar name={`${auth.firstName} ${auth.lastName}`} view="md" />
-              </Link>
-            </UserInfoTop>
-            <h3>
-              <Link to="/profile">{`${auth.firstName} ${auth.lastName}`}</Link>
-            </h3>
-          </UserInfo>
-        )}
-        {!auth && (
-          <MenuTop>
-            <h3>Menu</h3>
-          </MenuTop>
-        )}
-        <Navigation>
-          {/* <li>
-            <Link to="/search">
-              <Info>
-                <Icon icon="search" fixedWidth />
-                Search
-              </Info>
-            </Link>
-          </li> */}
-          <li>
-            <Link to="/browse">
-              <Info>
-                {/* <Icon icon="film" fixedWidth /> */}
-                Browse
-              </Info>
-            </Link>
-          </li>
-          <li>
-            <Link to="/upcoming">
-              <Info>
-                {/* <Icon icon="film" fixedWidth /> */}
-                Upcoming
-              </Info>
-            </Link>
-          </li>
-          <li>
-            <Link to="/suggest">
-              <Info>
-                {/* <Icon icon="film" fixedWidth /> */}
-                Discover
-              </Info>
-            </Link>
-          </li>
-          {/* <li>
-            <Link to="/watch-later">
-              <Info>
-                Watch Later
-              </Info>
-            </Link>
-          </li> */}
-        </Navigation>
-        <Divider />
-        <Navigation>
-          {auth && (
-            <Query query={favorites}>
-              {({ data, loading }) => {
-                if (loading) {
-                  return null;
-                }
-                return (
-                  <li>
-                    <Link to="/profile/favorites">
-                      <Info>
-                        <Icon icon={['far', 'bookmark']} fixedWidth />
-                        Bookmarks
-                      </Info>
-                      <Attribute>
-                        {data.favorites ? data.favorites.length : 0}
-                      </Attribute>
-                    </Link>
-                  </li>
-                );
-              }}
-            </Query>
-          )}
-          {auth && auth.role === 'SYSADMIN' && (
-            <li>
-              <Link to="/admin">
-                <Info>
-                  <Icon icon="star" fixedWidth />
-                  Admin
-                </Info>
-              </Link>
-            </li>
-          )}
-          {!auth && (
-            <li>
-              <Link to="/signup">
-                <Info>
-                  {/* <Icon icon={['far', 'bookmark']} fixedWidth /> */}
-                  Signup
-                </Info>
-              </Link>
-            </li>
-          )}
-        </Navigation>
-        <LogoutContainer>
-          {auth ? (
-            <Link to="/signout">Logout</Link>
-          ) : (
-            <Link to="/login">Login</Link>
-          )}
-        </LogoutContainer>
-      </Sidebar>
+      <SidebarWrapper>
+        <Sidebar auth={auth} />
+      </SidebarWrapper>
 
       <Main>
         <Header>
+          <SidebarTablet auth={auth} />
+
           <Link to="/">
             <img src={logo} alt="Logo" style={{ maxWidth: 200 }} />
           </Link>
@@ -176,105 +67,23 @@ const SearchContainer = styled.div`
   }
 `;
 
-const Sidebar = styled.div`
+const SidebarWrapper = styled.div`
   flex: 1;
   max-width: 200px;
-  /* position: relative; */
+
+  @media (max-width: 790px) {
+    display: none;
+  }
 `;
 const Main = styled.div`
   flex: 1;
   padding: ${props => props.theme.spacing.normal};
   box-sizing: border-box;
   max-width: calc(100% - 200px);
-`;
 
-const UserInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: ${props => props.theme.spacing.normal};
-
-  h3 {
-    font-weight: 300;
-
-    a {
-      transition: color 200ms ease-in-out;
-      text-decoration: none;
-      color: #fff;
-
-      &:hover {
-        color: ${props => props.theme.colors.primary};
-      }
-    }
-  }
-`;
-
-const UserInfoTop = styled.div`
-  margin: ${props => props.theme.spacing.normal};
-`;
-
-const Navigation = styled.ul`
-  color: #cacaca;
-
-  li {
-    margin-bottom: ${props => props.theme.spacing.small};
-
-    a {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-left: transparent 4px solid;
-      color: #cacaca;
-      text-decoration: none;
-      padding: 0 ${props => props.theme.spacing.normal};
-
-      &:hover {
-        border-left: 4px solid ${props => props.theme.colors.primary};
-        color: #fff;
-      }
-
-      i,
-      svg {
-        margin-right: ${props => props.theme.spacing.small};
-      }
-    }
-  }
-`;
-
-const Info = styled.span``;
-
-const Attribute = styled.span`
-  border: #4f4f4f 1px solid;
-  color: ${props => props.theme.colors.primary};
-  margin-right: ${props => props.theme.spacing.small};
-  padding: ${props => props.theme.spacing.tiny};
-  font-size: 0.8em;
-  min-width: 12.5px;
-  text-align: center;
-`;
-
-const Divider = styled.div`
-  background: #3e3e3e;
-  height: 2px;
-  margin: ${props => props.theme.spacing.large}
-    ${props => props.theme.spacing.normal};
-`;
-
-const LogoutContainer = styled.div`
-  /* position: absolute; */
-  /* bottom: 20px; */
-  /* left: 20px; */
-  margin: ${props => props.theme.spacing.normal};
-  text-align: right;
-
-  a {
-    color: #cacaca;
-    text-decoration: none;
-
-    &:hover {
-      color: #fff;
-    }
+  @media (max-width: 790px) {
+    max-width: 100%;
+    padding: ${props => props.theme.spacing.normal} 0;
   }
 `;
 
@@ -282,17 +91,11 @@ const Content = styled.div`
   min-height: 100%;
   box-sizing: border-box;
   padding-top: ${props => props.theme.spacing.huge};
+
+  @media (max-width: 790px) {
+    padding: ${props => props.theme.spacing.large};
+  }
   /* display: flex;
   align-items: flex-start;
   height: 100%; */
-`;
-
-const MenuTop = styled.div`
-  margin: ${props => props.theme.spacing.large} 0;
-
-  h3 {
-    text-align: center;
-    font-weight: 300;
-    text-transform: uppercase;
-  }
 `;
