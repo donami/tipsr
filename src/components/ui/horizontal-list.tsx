@@ -66,8 +66,16 @@ const Wrapper = styled.div<{ vertical: boolean }>`
             margin-bottom: 0;
           }
 
-          > div {
+          > div:first-child {
             max-width: 15%;
+          }
+
+          > div:last-child {
+            margin-left: ${props => props.theme.spacing.normal};
+
+            a {
+              margin: 0;
+            }
           }
         }
       `;

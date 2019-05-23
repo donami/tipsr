@@ -5,6 +5,7 @@ import { Query } from 'react-apollo';
 import movies from '@/queries/movies';
 import Poster from './poster';
 import HorizontalList from '../ui/horizontal-list';
+import styled, { css } from '../../lib/styledComponents';
 
 type Props = {
   vertical?: boolean;
@@ -25,7 +26,12 @@ const FeaturedMovies: React.SFC<Props> = ({ vertical = false }) => {
                   <div>
                     <Poster image={item.poster} small />
                   </div>
-                  <Link to={`/movie/${item.id}`}>{item.title}</Link>
+                  <div>
+                    <Link to={`/movie/${item.id}`}>{item.title}</Link>
+                    <MovieDescription vertical={vertical}>
+                      {item.description}
+                    </MovieDescription>
+                  </div>
                 </>
               );
             }}
@@ -37,3 +43,17 @@ const FeaturedMovies: React.SFC<Props> = ({ vertical = false }) => {
 };
 
 export default FeaturedMovies;
+
+const MovieDescription = styled.p<{ vertical: boolean }>`
+  ${props => {
+    if (props.vertical) {
+      return css`
+        display: none;
+        @media (max-width: 960px) {
+          display: block;
+        }
+      `;
+    }
+    return null;
+  }}
+`;
