@@ -9,7 +9,8 @@ const SignOutPage: React.SFC<WithApolloClient<Props> & RouteComponentProps> = ({
   client,
 }) => {
   useEffect(() => {
-    fetch(`${process.env.CLIENT_URL || 'http://localhost:3000'}/logout`, {
+    fetch('http://www.spot-movie.com/logout', {
+      // fetch(`${process.env.CLIENT_URL || 'http://localhost:3000'}/logout`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -59,7 +59,8 @@ const Login: React.SFC<any> = ({ history }) => {
 
                 if (login && login.user && login.user.token) {
                   await fetch(
-                    `${process.env.CLIENT_URL || 'http://localhost:3000'}/auth`,
+                    // `${process.env.CLIENT_URL || 'http://localhost:3000'}/auth`,
+                    'http://www.spot-movie.com/auth',
                     {
                       method: 'POST',
                       body: JSON.stringify({

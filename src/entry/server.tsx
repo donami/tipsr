@@ -89,10 +89,7 @@ export default function(output: Output) {
           <ApolloProvider client={client}>
             <ApolloHooksProvider client={client}>
               <StaticRouter location={ctx.request.url} context={routerContext}>
-                <>
-                  <div>token: {ctx.cookies.get(COOKIE_KEY)}</div>
-                  <Root />
-                </>
+                <Root />
               </StaticRouter>
             </ApolloHooksProvider>
           </ApolloProvider>
