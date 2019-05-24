@@ -6,6 +6,7 @@ import movies from '@/queries/movies';
 import Poster from './poster';
 import HorizontalList from '../ui/horizontal-list';
 import styled, { css } from '../../lib/styledComponents';
+import { slugify } from '@/lib/helpers';
 
 type Props = {
   vertical?: boolean;
@@ -27,7 +28,9 @@ const FeaturedMovies: React.SFC<Props> = ({ vertical = false }) => {
                     <Poster image={item.poster} small />
                   </div>
                   <div>
-                    <Link to={`/movie/${item.id}`}>{item.title}</Link>
+                    <Link to={`/movie/${item.id}-${slugify(item.title)}`}>
+                      {item.title}
+                    </Link>
                     <MovieDescription vertical={vertical}>
                       {item.description}
                     </MovieDescription>

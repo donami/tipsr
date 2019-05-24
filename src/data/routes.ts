@@ -38,7 +38,7 @@ const routes: RouteProps[] = [
   {
     component: MoviePage,
     exact: true,
-    path: '/movie/:id/:external?',
+    path: '/movie/:id-:slug/:external?',
   },
   {
     component: BrowsePage,

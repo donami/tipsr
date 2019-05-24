@@ -5,6 +5,7 @@ import favorites from '@/queries/favorites';
 import Loader from '@/components/ui/loader';
 import MovieItem from '@/components/movie/movie-item';
 import Heading from '@/components/ui/heading';
+import { slugify } from '@/lib/helpers';
 
 type Props = {};
 const FavoritePage: React.SFC<Props> = () => {
@@ -24,7 +25,11 @@ const FavoritePage: React.SFC<Props> = () => {
                 <div>
                   {data.favorites.map((favorite: any) => (
                     <MovieItem key={favorite.id} movie={favorite}>
-                      <Link to={`/movie/${favorite.id}`}>{favorite.title}</Link>
+                      <Link
+                        to={`/movie/${favorite.id}-${slugify(favorite.title)}`}
+                      >
+                        {favorite.title}
+                      </Link>
                     </MovieItem>
                   ))}
                 </div>

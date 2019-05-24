@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import ActionButton from '@/components/ui/action-button';
 import Icon from '@/components/ui/icon';
 import Poster from '@/components/movie/poster';
+import { slugify } from '@/lib/helpers';
 
 type Props = { movie: any };
 const MovieItem: React.SFC<Props> = ({ movie }) => {
@@ -14,7 +15,9 @@ const MovieItem: React.SFC<Props> = ({ movie }) => {
       </div>
       <div className="movie-item-info-container">
         <h5>
-          <Link to={`/movie/${movie.id}`}>{movie.title}</Link>
+          <Link to={`/movie/${movie.id}-${slugify(movie.title)}`}>
+            {movie.title}
+          </Link>
         </h5>
         <p>
           A darkness swirls at the center of a world-renowned dance company, one
@@ -34,7 +37,10 @@ const MovieItem: React.SFC<Props> = ({ movie }) => {
           >
             <Icon icon={['far', 'heart']} />
           </ActionButton>
-          <ActionButton as={Link} to={`/movie/${movie.id}`}>
+          <ActionButton
+            as={Link}
+            to={`/movie/${movie.id}-${slugify(movie.title)}`}
+          >
             View details
           </ActionButton>
         </div>

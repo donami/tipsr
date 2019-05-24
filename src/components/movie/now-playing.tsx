@@ -5,6 +5,7 @@ import { Query } from 'react-apollo';
 import nowPlayingQuery from '@/queries/now-playing';
 import Loader from '@/components/ui/loader';
 import Heading from '../ui/heading';
+import { slugify } from '@/lib/helpers';
 
 type Props = { className?: string };
 const NowPlaying: React.SFC<Props> = ({ className }) => {
@@ -24,9 +25,9 @@ const NowPlaying: React.SFC<Props> = ({ className }) => {
               {movies.map((movie: any, index: number) => {
                 let link = '';
                 if (movie.id === movie.externalId) {
-                  link = `/movie/${movie.id}/true`;
+                  link = `/movie/${movie.id}-${slugify(movie.title)}/true`;
                 } else {
-                  link = `/movie/${movie.id}`;
+                  link = `/movie/${movie.id}-${slugify(movie.title)}`;
                 }
                 return (
                   <Movie to={link} image={movie.backdropPath} key={index}>

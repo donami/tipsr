@@ -7,6 +7,7 @@ import Loader from '../../components/ui/loader';
 import upcoming from '@/queries/upcoming';
 import styled from '@/lib/styledComponents';
 import Poster from '@/components/movie/poster';
+import { slugify } from '@/lib/helpers';
 
 type Props = {};
 const UpcomingPage: React.SFC<Props> = () => {
@@ -25,9 +26,9 @@ const UpcomingPage: React.SFC<Props> = () => {
                 {data.upcoming.movies.map(item => {
                   let link = '';
                   if (item.id === item.externalId) {
-                    link = `/movie/${item.id}/true`;
+                    link = `/movie/${item.id}-${slugify(item.title)}/true`;
                   } else {
-                    link = `/movie/${item.id}`;
+                    link = `/movie/${item.id}-${slugify(item.title)}`;
                   }
                   return (
                     <Movie key={item.id}>

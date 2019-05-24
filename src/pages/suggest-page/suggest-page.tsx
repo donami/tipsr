@@ -20,6 +20,7 @@ import genres from '../../queries/genres';
 import addFavorite from '@/mutations/add-favorite';
 import { useToasts } from '@/components/toasts/toast-manager';
 import { default as AddFavoriteAction } from '@/components/movie/add-favorite';
+import { slugify } from '@/lib/helpers';
 
 type Filters = {
   startYear: string;
@@ -251,7 +252,10 @@ const SuggestPage: React.SFC<Props> = () => {
                           >
                             <Icon icon="plus" />
                           </ActionButton>
-                          <ActionButton as={Link} to={`/movie/${movie.id}`}>
+                          <ActionButton
+                            as={Link}
+                            to={`/movie/${movie.id}-${slugify(movie.title)}`}
+                          >
                             View more...
                           </ActionButton>
                         </div>

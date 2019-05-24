@@ -5,6 +5,7 @@ import { Query } from 'react-apollo';
 import similar from '@/queries/similar';
 import Poster from './poster';
 import HorizontalList from '../ui/horizontal-list';
+import { slugify } from '@/lib/helpers';
 
 type Props = { externalId: number; className?: string };
 const SimilarMovies: React.SFC<Props> = ({ externalId, className }) => {
@@ -21,9 +22,9 @@ const SimilarMovies: React.SFC<Props> = ({ externalId, className }) => {
               let link = '';
 
               if (item.id === item.externalId) {
-                link = `/movie/${item.id}/true`;
+                link = `/movie/${item.id}-${slugify(item.title)}/true`;
               } else {
-                link = `/movie/${item.id}`;
+                link = `/movie/${item.id}-${slugify(item.title)}`;
               }
               return (
                 <>

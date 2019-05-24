@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from '@/lib/styledComponents';
 import search from '@/queries/search';
 import Input from '@/components/ui/input';
+import { slugify } from '@/lib/helpers';
 
 // Hook
 function useDebounce(value: any, delay: number) {
@@ -74,7 +75,7 @@ const Search: React.SFC<Props> = () => {
                             }
                             setSearchTerm('');
                           }}
-                          to={`/movie/${movie.id}`}
+                          to={`/movie/${movie.id}-${slugify(movie.title)}`}
                         >
                           {movie.title}
                         </Link>

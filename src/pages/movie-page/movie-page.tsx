@@ -22,9 +22,10 @@ import VideoList from '../../components/movie/video-list';
 import AppStateContext from '../../components/layout/app-state-context';
 import MovieGenres from '../../components/movie/movie-genres';
 import Button from '../../components/ui/button';
+import { slugify } from '@/lib/helpers';
 
 const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
-  const [addedMovieId, setAddedMovieId] = useState(null);
+  const [addedMovie, setAddedMovie] = useState(null);
 
   useEffect(() => {
     mutate({
@@ -37,13 +38,15 @@ const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
         results.data.addExternalMovie &&
         results.data.addExternalMovie.movie
       ) {
-        setAddedMovieId(results.data.addExternalMovie.movie.id);
+        setAddedMovie(results.data.addExternalMovie.movie);
       }
     });
   }, []);
 
-  if (addedMovieId) {
-    return <Redirect to={`/movie/${addedMovieId}`} />;
+  if (addedMovie) {
+    return (
+      <Redirect to={`/movie/${addedMovie.id}-${slugify(addedMovie.title)}`} />
+    );
   }
 
   return <Loader />;
