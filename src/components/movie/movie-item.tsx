@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from '@/lib/styledComponents';
 import { Link } from 'react-router-dom';
+import { Mutation } from 'react-apollo';
 import ActionButton from '@/components/ui/action-button';
 import Icon from '@/components/ui/icon';
 import Poster from '@/components/movie/poster';
 import { slugify } from '@/lib/helpers';
+import addFavorite from '@/mutations/add-favorite';
+import favorites from '@/queries/favorites';
 
 type Props = { movie: any };
 const MovieItem: React.SFC<Props> = ({ movie }) => {
@@ -26,17 +29,38 @@ const MovieItem: React.SFC<Props> = ({ movie }) => {
           will finally wake up.
         </p>
         <div>
-          <ActionButton
-            onClick={async () => {
-              const added = await mutate({
-                variables: {
-                  movieId: movie.id,
-                },
-              });
+          <Mutation
+            mutation={addFavorite}
+            update={(proxy, { data: { addFavorite } }) => {
+              try {
+                const data = proxy.readQuery({
+                  query: favorites,
+                });
+
+                proxy.writeQuery({
+                  query: favorites,
+                  data: {
+                    ...data,
+                    favorites: addFavorite.favorites,
+                  },
+                });
+              } catch (error) {}
             }}
           >
-            <Icon icon={['far', 'heart']} />
-          </ActionButton>
+            {mutate => (
+              <ActionButton
+                onClick={async () => {
+                  const added = await mutate({
+                    variables: {
+                      movieId: movie.id,
+                    },
+                  });
+                }}
+              >
+                <Icon icon={['far', 'heart']} />
+              </ActionButton>
+            )}
+          </Mutation>
           <ActionButton
             as={Link}
             to={`/movie/${movie.id}-${slugify(movie.title)}`}
