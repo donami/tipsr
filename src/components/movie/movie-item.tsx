@@ -25,12 +25,7 @@ const MovieItem: React.SFC<Props> = ({ movie, favorites }) => {
             {movie.title}
           </Link>
         </h5>
-        <p>
-          A darkness swirls at the center of a world-renowned dance company, one
-          that will engulf the artistic director, an ambitious young dancer, and
-          a grieving psychotherapist. Some will succumb to the nightmare. Others
-          will finally wake up.
-        </p>
+        <p>{movie.description}</p>
         <div>
           <Mutation
             mutation={addFavorite}
