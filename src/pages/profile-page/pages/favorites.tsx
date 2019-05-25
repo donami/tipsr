@@ -1,11 +1,9 @@
 import React, { Fragment } from 'react';
 import { Query } from 'react-apollo';
-import { Link } from 'react-router-dom';
 import favorites from '@/queries/favorites';
 import Loader from '@/components/ui/loader';
-import MovieItem from '@/components/movie/movie-item';
 import Heading from '@/components/ui/heading';
-import { slugify } from '@/lib/helpers';
+import MovieList from '../../../components/movie/movie-list';
 
 type Props = {};
 const FavoritePage: React.SFC<Props> = () => {
@@ -21,19 +19,7 @@ const FavoritePage: React.SFC<Props> = () => {
 
           return (
             <Fragment>
-              {data.favorites.length && (
-                <div>
-                  {data.favorites.map((favorite: any) => (
-                    <MovieItem key={favorite.id} movie={favorite}>
-                      <Link
-                        to={`/movie/${favorite.id}-${slugify(favorite.title)}`}
-                      >
-                        {favorite.title}
-                      </Link>
-                    </MovieItem>
-                  ))}
-                </div>
-              )}
+              {data.favorites.length && <MovieList movies={data.favorites} />}
 
               {!data.favorites.length && <em>No favorites added yet.</em>}
             </Fragment>

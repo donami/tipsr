@@ -7,10 +7,13 @@ import Icon from '@/components/ui/icon';
 import Poster from '@/components/movie/poster';
 import { slugify } from '@/lib/helpers';
 import addFavorite from '@/mutations/add-favorite';
-import favorites from '@/queries/favorites';
 
-type Props = { movie: any };
-const MovieItem: React.SFC<Props> = ({ movie }) => {
+type Props = { movie: any; favorites: any[] };
+const MovieItem: React.SFC<Props> = ({ movie, favorites }) => {
+  const isFavorite = favorites
+    ? !!favorites.find(favorite => favorite.id === movie.id)
+    : false;
+
   return (
     <Wrapper key={movie.id}>
       <div className="movie-poster-container">
@@ -57,7 +60,7 @@ const MovieItem: React.SFC<Props> = ({ movie }) => {
                   });
                 }}
               >
-                <Icon icon={['far', 'heart']} />
+                <Icon icon={[isFavorite ? 'fas' : 'far', 'heart']} />
               </ActionButton>
             )}
           </Mutation>

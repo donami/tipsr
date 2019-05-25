@@ -4,7 +4,7 @@ import movies from '@/queries/movies';
 import Loader from '@/components/ui/loader';
 import DefaultLayout from '@/components/layout/default-layout';
 import Heading from '../../components/ui/heading';
-import MovieItem from '../../components/movie/movie-item';
+import MovieList from '../../components/movie/movie-list';
 
 const BrowsePage = () => {
   return (
@@ -16,9 +16,7 @@ const BrowsePage = () => {
         return (
           <DefaultLayout>
             <Heading sectionTitle>Movies</Heading>
-            {data.movies.map(movie => (
-              <MovieItem key={movie.id} movie={movie} />
-            ))}
+            <MovieList movies={data.movies || []} />
           </DefaultLayout>
         );
       }}
