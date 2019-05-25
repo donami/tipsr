@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Mutation } from 'react-apollo';
 import addFavorite from '../../mutations/add-favorite';
 import favorites from '../../queries/favorites';

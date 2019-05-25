@@ -7,6 +7,7 @@ import Icon from '@/components/ui/icon';
 import Poster from '@/components/movie/poster';
 import { slugify } from '@/lib/helpers';
 import addFavorite from '@/mutations/add-favorite';
+import AddFavoriteAction from './add-favorite';
 
 type Props = { movie: any; favorites: any[] };
 const MovieItem: React.SFC<Props> = ({ movie, favorites }) => {
@@ -27,38 +28,28 @@ const MovieItem: React.SFC<Props> = ({ movie, favorites }) => {
         </h5>
         <p>{movie.description}</p>
         <div>
-          <Mutation
-            mutation={addFavorite}
-            update={(proxy, { data: { addFavorite } }) => {
-              try {
-                const data = proxy.readQuery({
-                  query: favorites,
-                });
-
-                proxy.writeQuery({
-                  query: favorites,
-                  data: {
-                    ...data,
-                    favorites: addFavorite.favorites,
-                  },
-                });
-              } catch (error) {}
+          <AddFavoriteAction>
+            {({ mutate, add }: any) => {
+              return (
+                <ActionButton
+                  onClick={async () => {
+                    await mutate({
+                      variables: {
+                        movieId: movie.id,
+                      },
+                    });
+                    add({
+                      type: 'success',
+                      message: 'Favorite added',
+                    });
+                  }}
+                >
+                  <Icon icon={[isFavorite ? 'fas' : 'far', 'heart']} />
+                </ActionButton>
+              );
             }}
-          >
-            {mutate => (
-              <ActionButton
-                onClick={async () => {
-                  const added = await mutate({
-                    variables: {
-                      movieId: movie.id,
-                    },
-                  });
-                }}
-              >
-                <Icon icon={[isFavorite ? 'fas' : 'far', 'heart']} />
-              </ActionButton>
-            )}
-          </Mutation>
+          </AddFavoriteAction>
+
           <ActionButton
             as={Link}
             to={`/movie/${movie.id}-${slugify(movie.title)}`}

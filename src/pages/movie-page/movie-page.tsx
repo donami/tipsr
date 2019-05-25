@@ -23,6 +23,8 @@ import AppStateContext from '../../components/layout/app-state-context';
 import MovieGenres from '../../components/movie/movie-genres';
 import Button from '../../components/ui/button';
 import { slugify } from '@/lib/helpers';
+import AddFavoriteAction from '../../components/movie/add-favorite';
+import favorites from '../../queries/favorites';
 
 const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
   const [addedMovie, setAddedMovie] = useState(null);
@@ -124,7 +126,51 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
                       </div>
 
                       <div className="movie-top-right-action-buttons">
-                        <Mutation mutation={addFavorite}>
+                        <Query query={favorites}>
+                          {({ data: { favorites }, loading }) => {
+                            if (loading) {
+                              return null;
+                            }
+
+                            const isFavorite = favorites
+                              ? !!favorites.find(
+                                  (favorite: any) =>
+                                    favorite.id === data.movie.id
+                                )
+                              : false;
+
+                            return (
+                              <AddFavoriteAction>
+                                {({ mutate, add }: any) => {
+                                  return (
+                                    <ActionButton
+                                      onClick={async () => {
+                                        await mutate({
+                                          variables: {
+                                            movieId: data.movie.id,
+                                          },
+                                        });
+                                        add({
+                                          type: 'success',
+                                          message: 'Favorite updated',
+                                        });
+                                      }}
+                                    >
+                                      <Icon
+                                        icon={[
+                                          isFavorite ? 'fas' : 'far',
+                                          'heart',
+                                        ]}
+                                      />
+                                    </ActionButton>
+                                  );
+                                }}
+                              </AddFavoriteAction>
+                            );
+                          }}
+                        </Query>
+
+                        {/* <Mutation mutation={addFavorite}>
                           {mutate => (
                             <ActionButton
                               onClick={async () => {
@@ -138,7 +184,7 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
                               <Icon icon={['far', 'heart']} />
                             </ActionButton>
                           )}
-                        </Mutation>
+                        </Mutation> */}
                         {auth && (
                           <ActionButton onClick={showModal}>
                             Add to list...
