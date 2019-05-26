@@ -28,6 +28,12 @@ import ForgotPasswordPage from '../pages/forgot-password/forgot-password';
 import { withApollo } from 'react-apollo';
 import SuggestPage from '../pages/suggest-page/suggest-page';
 import UpcomingPage from '../pages/upcoming-page/upcoming-page';
+import SitemapPage from '../pages/sitemap-page/sitemap-page';
+import TopUsersPage from '../pages/top-users-page/top-users-page';
+import AboutUsPage from '../pages/about-us-page/about-us-page';
+import ContactUsPage from '../pages/contact-us-page/contact-us-page';
+import PrivacyPolicyPage from '../pages/privacy-policy-page/privacy-policy-page';
+import TermsConditionsPage from '../pages/terms-conditions-page/terms-conditions-page';
 
 // ----------------------------------------------------------------------------
 
@@ -44,6 +50,36 @@ const routes: RouteProps[] = [
     component: BrowsePage,
     exact: true,
     path: '/browse',
+  },
+  {
+    component: SitemapPage,
+    exact: true,
+    path: '/sitemap',
+  },
+  {
+    component: TopUsersPage,
+    exact: true,
+    path: '/top-users',
+  },
+  {
+    component: AboutUsPage,
+    exact: true,
+    path: '/about',
+  },
+  {
+    component: ContactUsPage,
+    exact: true,
+    path: '/contact',
+  },
+  {
+    component: TermsConditionsPage,
+    exact: true,
+    path: '/terms-and-conditions',
+  },
+  {
+    component: PrivacyPolicyPage,
+    exact: true,
+    path: '/privacy-policy',
   },
   {
     component: SuggestPage,
