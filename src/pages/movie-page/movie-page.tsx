@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import DefaultLayout from '@/components/layout/default-layout';
 import { Query, Mutation } from 'react-apollo';
 import movie from '../../queries/movie';
-import addFavorite from '../../mutations/add-favorite';
+import Helmet from 'react-helmet';
 import Loader from '../../components/ui/loader';
 import { RouteComponentProps, Redirect } from 'react-router-dom';
 import Heading from '../../components/ui/heading';
@@ -22,7 +22,7 @@ import VideoList from '../../components/movie/video-list';
 import AppStateContext from '../../components/layout/app-state-context';
 import MovieGenres from '../../components/movie/movie-genres';
 import Button from '../../components/ui/button';
-import { slugify } from '@/lib/helpers';
+import { slugify, truncate, createTitle } from '@/lib/helpers';
 import AddFavoriteAction from '../../components/movie/add-favorite';
 import favorites from '../../queries/favorites';
 
@@ -105,6 +105,13 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
               }
               return (
                 <div>
+                  <Helmet>
+                    <title>{createTitle(data.movie.title)}</title>
+                    <meta
+                      name="description"
+                      content={truncate(data.movie.description, 160)}
+                    />
+                  </Helmet>
                   <Top className="movie-top">
                     <div className="left">
                       <img src={data.movie.poster} alt="" />

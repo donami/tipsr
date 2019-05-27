@@ -3,11 +3,22 @@ import styled from '@/lib/styledComponents';
 import DefaultLayout from '@/components/layout/default-layout';
 import FeaturedMovies from '../../components/movie/featured-movies';
 import NowPlaying from '../../components/movie/now-playing';
+import { truncate } from '../../lib/helpers';
+import Helmet from 'react-helmet';
 
 type Props = {};
 const HomePage: React.SFC<Props> = () => {
   return (
     <DefaultLayout>
+      <Helmet>
+        <meta
+          name="description"
+          content={truncate(
+            'The Spot-movie web application will help you find the next movie to watch next!',
+            160
+          )}
+        />
+      </Helmet>
       <Top>
         <NowPlaying className="now-playing" />
         <FeaturedMovies vertical />

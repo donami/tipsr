@@ -36,7 +36,6 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 
 /* Local */
-import me from '@/queries/me';
 
 // Components
 import ScrollTop from '@/components/helpers/scrollTop';

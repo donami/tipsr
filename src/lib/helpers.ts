@@ -30,3 +30,11 @@ export const isValidEmail = (email: string) => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 };
+
+export const truncate = (text: string, max: number) => {
+  return text.substr(0, max - 1) + (text.length > max ? '...' : '');
+};
+
+export const createTitle = (text: string) => {
+  return `${text} | Spot-movie.com`;
+};
