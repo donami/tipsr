@@ -12,10 +12,7 @@ const BrowsePage = () => {
   const itemsPerPage = 1;
 
   return (
-    <Query
-      query={allMoviesCursor}
-      variables={{ first: itemsPerPage, after: '0' }}
-    >
+    <Query query={allMoviesCursor} variables={{ first: itemsPerPage }}>
       {({ data, loading, fetchMore }) => {
         if (loading) {
           return <Loader />;
