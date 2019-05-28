@@ -5,7 +5,7 @@ import styled from '@/lib/styledComponents';
 import Avatar from '../ui/avatar';
 import { Comment } from '../../interfaces/models';
 import ActionButton from '../ui/action-button';
-import Icon from '../ui/icon';
+import FavoriteIcon from '../ui/favorite-icon';
 
 type Props = {
   comment: Comment;
@@ -33,7 +33,7 @@ const Comment: React.SFC<Props> = ({ comment }) => {
         </Main>
         <Bottom>
           <ActionButton>
-            <Icon icon={['far', 'heart']} />
+            <FavoriteIcon isFavorite={false} />
           </ActionButton>
         </Bottom>
       </Content>

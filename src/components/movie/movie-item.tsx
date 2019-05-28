@@ -1,13 +1,11 @@
 import React from 'react';
 import styled from '@/lib/styledComponents';
 import { Link } from 'react-router-dom';
-import { Mutation } from 'react-apollo';
 import ActionButton from '@/components/ui/action-button';
-import Icon from '@/components/ui/icon';
+import FavoriteIcon from '@/components/ui/favorite-icon';
 import Poster from '@/components/movie/poster';
 import { slugify } from '@/lib/helpers';
-import addFavorite from '@/mutations/add-favorite';
-import AddFavoriteAction from './add-favorite';
+import Action from './add-favorite';
 
 type Props = { movie: any; favorites: any[] };
 const MovieItem: React.SFC<Props> = ({ movie, favorites }) => {
@@ -28,7 +26,7 @@ const MovieItem: React.SFC<Props> = ({ movie, favorites }) => {
         </h5>
         <p>{movie.description}</p>
         <div>
-          <AddFavoriteAction>
+          <Action>
             {({ mutate, add }: any) => {
               return (
                 <ActionButton
@@ -44,11 +42,11 @@ const MovieItem: React.SFC<Props> = ({ movie, favorites }) => {
                     });
                   }}
                 >
-                  <Icon icon={[isFavorite ? 'fas' : 'far', 'heart']} />
+                  <FavoriteIcon isFavorite={isFavorite} />
                 </ActionButton>
               );
             }}
-          </AddFavoriteAction>
+          </Action>
 
           <ActionButton
             as={Link}

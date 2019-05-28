@@ -10,6 +10,7 @@ export interface ITheme {
     accent: string;
     lighter: string;
     darker: string;
+    red: string;
   };
   spacing: {
     tiny: string;

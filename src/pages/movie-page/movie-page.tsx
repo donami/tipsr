@@ -8,7 +8,6 @@ import { RouteComponentProps, Redirect } from 'react-router-dom';
 import Heading from '../../components/ui/heading';
 import AddToList from '../../components/lists/add-to-list';
 import Rating from '../../components/ui/rating';
-import Icon from '../../components/ui/icon';
 import ActionButton from '../../components/ui/action-button';
 import addExternalMovie from '../../mutations/add-external-movie';
 import updateMovie from '../../mutations/update-movie';
@@ -25,6 +24,7 @@ import Button from '../../components/ui/button';
 import { slugify, truncate, createTitle } from '@/lib/helpers';
 import AddFavoriteAction from '../../components/movie/add-favorite';
 import favorites from '../../queries/favorites';
+import FavoriteIcon from '@/components/ui/favorite-icon';
 
 const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
   const [addedMovie, setAddedMovie] = useState(null);
@@ -163,12 +163,7 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
                                         });
                                       }}
                                     >
-                                      <Icon
-                                        icon={[
-                                          isFavorite ? 'fas' : 'far',
-                                          'heart',
-                                        ]}
-                                      />
+                                      <FavoriteIcon isFavorite={isFavorite} />
                                     </ActionButton>
                                   );
                                 }}
@@ -177,21 +172,6 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
                           }}
                         </Query>
 
-                        {/* <Mutation mutation={addFavorite}>
-                          {mutate => (
-                            <ActionButton
-                              onClick={async () => {
-                                await mutate({
-                                  variables: {
-                                    movieId: data.movie.id,
-                                  },
-                                });
-                              }}
-                            >
-                              <Icon icon={['far', 'heart']} />
-                            </ActionButton>
-                          )}
-                        </Mutation> */}
                         {auth && (
                           <ActionButton onClick={showModal}>
                             Add to list...

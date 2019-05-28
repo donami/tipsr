@@ -20,6 +20,7 @@ const theme: ITheme = {
     light: '#f2efe8',
     border: '#ccc',
     darker: '#140028',
+    red: '#FE2D55',
   },
   spacing: {
     tiny: '3.75px',

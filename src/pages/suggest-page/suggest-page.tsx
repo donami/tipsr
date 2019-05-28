@@ -21,6 +21,7 @@ import addFavorite from '@/mutations/add-favorite';
 import { useToasts } from '@/components/toasts/toast-manager';
 import { default as AddFavoriteAction } from '@/components/movie/add-favorite';
 import { slugify } from '@/lib/helpers';
+import FavoriteIcon from '../../components/ui/favorite-icon';
 
 type Filters = {
   startYear: string;
@@ -183,7 +184,7 @@ const SuggestPage: React.SFC<Props> = () => {
                     >
                       <Icon icon="filter" />
                     </Button>
-                    <Button
+                    <SuggestButton
                       title="Suggest another movie"
                       circular
                       icon
@@ -192,7 +193,7 @@ const SuggestPage: React.SFC<Props> = () => {
                       }}
                     >
                       <Icon icon="random" />
-                    </Button>
+                    </SuggestButton>
                   </div>
                   <div className="backdrop-content">
                     <div>
@@ -220,27 +221,44 @@ const SuggestPage: React.SFC<Props> = () => {
                         <p className="description">{movie.description}</p>
 
                         <div>
-                          <AddFavoriteAction>
-                            {({ mutate, add }: any) => {
+                          <Query query={favorites}>
+                            {({ data: { favorites }, loading }) => {
+                              if (loading) {
+                                return null;
+                              }
+
+                              const isFavorite = favorites
+                                ? !!favorites.find(
+                                    (favorite: any) => favorite.id === movie.id
+                                  )
+                                : false;
+
                               return (
-                                <ActionButton
-                                  onClick={async () => {
-                                    await mutate({
-                                      variables: {
-                                        movieId: movie.id,
-                                      },
-                                    });
-                                    add({
-                                      type: 'success',
-                                      message: 'Favorite added',
-                                    });
+                                <AddFavoriteAction>
+                                  {({ mutate, add }: any) => {
+                                    return (
+                                      <ActionButton
+                                        onClick={async () => {
+                                          await mutate({
+                                            variables: {
+                                              movieId: movie.id,
+                                            },
+                                          });
+                                          add({
+                                            type: 'success',
+                                            message: 'Favorite added',
+                                          });
+                                        }}
+                                      >
+                                        <FavoriteIcon isFavorite={isFavorite} />
+                                      </ActionButton>
+                                    );
                                   }}
-                                >
-                                  <Icon icon={['far', 'heart']} />
-                                </ActionButton>
+                                </AddFavoriteAction>
                               );
                             }}
-                          </AddFavoriteAction>
+                          </Query>
+
                           <ActionButton
                             onClick={async () => {
                               // const added = await mutate({
@@ -372,4 +390,9 @@ const Backdrop = styled.div<{ backdropPath: string }>`
       }
     }
   }
+`;
+
+const SuggestButton = styled(Button)`
+  background-color: ${props => props.theme.colors.red};
+  color: #fff;
 `;
