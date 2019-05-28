@@ -50,7 +50,10 @@ const Search: React.SFC<Props> = () => {
       />
 
       {debouncedSearchTerm && (
-        <Query query={search} variables={{ term: debouncedSearchTerm }}>
+        <Query
+          query={search}
+          variables={{ term: debouncedSearchTerm, limit: 10 }}
+        >
           {({ data, loading }) => {
             if (loading) {
               return (
