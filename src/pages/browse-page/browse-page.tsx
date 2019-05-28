@@ -8,8 +8,9 @@ import allMoviesCursor from '../../queries/all-movies-cursor';
 import Button from '../../components/ui/button';
 import styled from '@/lib/styledComponents';
 
-const BrowsePage = () => {
-  const itemsPerPage = 1;
+type Props = {};
+const BrowsePage: React.SFC<Props> = () => {
+  const itemsPerPage = 30;
 
   return (
     <Query query={allMoviesCursor} variables={{ first: itemsPerPage }}>
