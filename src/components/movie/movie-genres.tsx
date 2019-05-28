@@ -3,14 +3,15 @@ import styled from '@/lib/styledComponents';
 
 type Props = {
   genres: any[];
+  className?: string;
 };
-const MovieGenres: React.SFC<Props> = ({ genres }) => {
+const MovieGenres: React.SFC<Props> = ({ genres, className }) => {
   if (!genres || !genres.length) {
     return null;
   }
 
   return (
-    <Wrapper>
+    <Wrapper className={className || 'movie-genres'}>
       {genres && !!genres.length && (
         <>
           {genres.map((genre, index) => (

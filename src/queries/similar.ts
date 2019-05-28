@@ -7,11 +7,11 @@ export default gql`
       title
       poster
       featured
-      # genres {
-      #   id
-      #   name
-      #   __typename
-      # }
+      genres {
+        id
+        name
+        # __typename
+      }
       releaseDate
       description
       externalId

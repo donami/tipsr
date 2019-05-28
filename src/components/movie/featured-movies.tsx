@@ -7,6 +7,7 @@ import Poster from './poster';
 import HorizontalList from '../ui/horizontal-list';
 import styled, { css } from '../../lib/styledComponents';
 import { slugify } from '@/lib/helpers';
+import MovieGenres from './movie-genres';
 
 type Props = {
   vertical?: boolean;
@@ -31,6 +32,7 @@ const FeaturedMovies: React.SFC<Props> = ({ vertical = false }) => {
                     <Link to={`/movie/${item.id}-${slugify(item.title)}`}>
                       {item.title}
                     </Link>
+                    <StyledMovieGenres genres={item.genres} />
                     <MovieDescription vertical={vertical}>
                       {item.description}
                     </MovieDescription>
@@ -59,4 +61,10 @@ const MovieDescription = styled.p<{ vertical: boolean }>`
     }
     return null;
   }}
+`;
+
+const StyledMovieGenres = styled(MovieGenres)`
+  span {
+    color: #999 !important;
+  }
 `;
