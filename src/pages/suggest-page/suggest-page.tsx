@@ -395,4 +395,10 @@ const Backdrop = styled.div<{ backdropPath: string }>`
 const SuggestButton = styled(Button)`
   background-color: ${props => props.theme.colors.red};
   color: #fff;
+
+  &:hover {
+    background-color: ${props => props.theme.colors.red};
+    opacity: 0.8;
+    color: #fff;
+  }
 `;
