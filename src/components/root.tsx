@@ -82,6 +82,7 @@ const Root = () => (
     <GlobalStyles />
     <Helmet>
       <title>Find your next favorite movie | Spot-movie.com</title>
+      <link rel="icon" href="favicon.ico?v=1" type="image/x-icon" />
       <script>
         {`
           window.dataLayer = window.dataLayer || [];
