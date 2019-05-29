@@ -41,7 +41,7 @@ const Search: React.SFC<Props> = () => {
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   return (
-    <div className="search-field">
+    <Wrapper className="search-field">
       <Input
         ref={inputRef}
         type="text"
@@ -91,11 +91,15 @@ const Search: React.SFC<Props> = () => {
           }}
         </Query>
       )}
-    </div>
+    </Wrapper>
   );
 };
 
 export default Search;
+
+const Wrapper = styled.div`
+  position: relative;
+`;
 
 const Results = styled.div`
   position: absolute;
