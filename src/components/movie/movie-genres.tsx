@@ -15,12 +15,10 @@ const MovieGenres: React.SFC<Props> = ({ genres, className }) => {
       {genres && !!genres.length && (
         <>
           {genres.map((genre, index) => (
-            <>
-              <span className="genre" key={genre.name}>
-                {genre.name}
-              </span>
+            <React.Fragment key={genre.id}>
+              <span className="genre">{genre.name}</span>
               {index !== genres.length - 1 && <span> | </span>}
-            </>
+            </React.Fragment>
           ))}
         </>
       )}

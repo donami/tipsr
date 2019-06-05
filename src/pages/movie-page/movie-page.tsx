@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import DefaultLayout from '@/components/layout/default-layout';
 import { Query, Mutation } from 'react-apollo';
+import { Link } from 'react-router-dom';
 import movie from '../../queries/movie';
 import Helmet from 'react-helmet';
 import Loader from '../../components/ui/loader';
@@ -34,7 +35,7 @@ const GetExternalMovie: React.SFC<any> = ({ externalId, mutate }) => {
       variables: {
         externalId: +externalId,
       },
-    }).then(results => {
+    }).then((results: any) => {
       if (
         results &&
         results.data.addExternalMovie &&
@@ -246,6 +247,20 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
                     >
                       Videos
                     </BarItem>
+                    {data.movie.forumCategory && (
+                      <BarItem
+                        as={Link}
+                        current={activeTab === 'discuss'}
+                        to={`/discuss/${data.movie.forumCategory.id}-${slugify(
+                          data.movie.forumCategory.title
+                        )}`}
+                        // onClick={() => {
+                        //   setActiveTab('discuss');
+                        // }}
+                      >
+                        Discuss
+                      </BarItem>
+                    )}
                   </Bar>
                   <BarContent>
                     {activeTab === 'reviews' && (
@@ -257,6 +272,7 @@ const MoviePage: React.SFC<Props> = ({ match }) => {
                     {activeTab === 'videos' && (
                       <VideoList externalMovieId={data.movie.externalId} />
                     )}
+                    {/* {activeTab === 'discuss' && <>Discuss</>} */}
                   </BarContent>
                 </div>
               );
