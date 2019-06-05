@@ -42,6 +42,14 @@ const MenuLinks: React.SFC<Props> = ({ auth }) => {
             </Info>
           </Link>
         </li>
+        <li>
+          <Link to="/discuss">
+            <Info>
+              {/* <Icon icon="film" fixedWidth /> */}
+              Discuss
+            </Info>
+          </Link>
+        </li>
         {/* <li>
             <Link to="/watch-later">
               <Info>

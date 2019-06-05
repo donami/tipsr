@@ -1,6 +1,17 @@
-export const formatDate = (timestamp: string) => {
+export const formatDate = (timestamp: string, includeTime = false) => {
   const date = new Date(+timestamp);
-  const formatted = new Intl.DateTimeFormat('en-GB').format(date);
+  let options = {};
+
+  if (includeTime) {
+    options = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    };
+  }
+  const formatted = new Intl.DateTimeFormat('en-GB', options).format(date);
 
   return formatted;
 };

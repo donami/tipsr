@@ -41,6 +41,23 @@ export const GlobalStyles = createGlobalStyle`
     color: ${props => props.theme.colors.primary};
   }
 
+  .breadcrumbs {
+    .breadcrumbs__inner {
+      span {
+        color:#FFF;
+        display:block;
+        background: blue;
+        text-decoration: none;
+        position:relative;
+        height: 40px;
+        line-height:40px;
+        padding: 0 10px 0 5px;
+        text-align: center;
+        margin-right: 23px;
+      }
+    }
+  }
+
   /* ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: #F5F5F5;

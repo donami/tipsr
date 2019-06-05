@@ -34,6 +34,7 @@ import AboutUsPage from '../pages/about-us-page/about-us-page';
 import ContactUsPage from '../pages/contact-us-page/contact-us-page';
 import PrivacyPolicyPage from '../pages/privacy-policy-page/privacy-policy-page';
 import TermsConditionsPage from '../pages/terms-conditions-page/terms-conditions-page';
+import DiscussPage from '../pages/discuss-page/discuss-page';
 
 // ----------------------------------------------------------------------------
 
@@ -80,6 +81,21 @@ const routes: RouteProps[] = [
     component: PrivacyPolicyPage,
     exact: true,
     path: '/privacy-policy',
+  },
+  // {
+  //   component: DiscussPage,
+  //   exact: false,
+  //   path: '/discuss/:categoryId/:topicId-:slug',
+  // },
+  // {
+  //   component: DiscussPage,
+  //   exact: false,
+  //   path: '/discuss/:categoryId-:slug',
+  // },
+  {
+    component: DiscussPage,
+    exact: false,
+    path: '/discuss',
   },
   {
     component: SuggestPage,

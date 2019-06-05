@@ -9,6 +9,10 @@ export default gql`
       backdropPath
       featured
       releaseDate
+      forumCategory {
+        id
+        title
+      }
       genres {
         id
         name

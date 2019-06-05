@@ -50,6 +50,7 @@ import { GlobalStyles } from '@/global/styles';
 import routes from '@/data/routes';
 import styled from '@/lib/styledComponents';
 import getCurrentCredential from '../queries/get-current-credential';
+import { BreadcrumbProvider } from '@/components/ui/breadcrumbs/store';
 import { filter } from 'graphql-anywhere';
 
 // ----------------------------------------------------------------------------
@@ -115,13 +116,15 @@ const Root = () => (
           return (
             <AppStateContext.Provider value={{ auth: data.credential }}>
               <ToastProvider>
-                <ModalProvider>
-                  <Switch>
-                    {routes.map(route => (
-                      <Route key={route.path} {...route} />
-                    ))}
-                  </Switch>
-                </ModalProvider>
+                <BreadcrumbProvider>
+                  <ModalProvider>
+                    <Switch>
+                      {routes.map(route => (
+                        <Route key={route.path} {...route} />
+                      ))}
+                    </Switch>
+                  </ModalProvider>
+                </BreadcrumbProvider>
               </ToastProvider>
             </AppStateContext.Provider>
           );
