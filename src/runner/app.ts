@@ -100,7 +100,7 @@ export function build(buildStatic = false) {
       }
 
       // Pull out the JSON stats
-      const stats = fullStats.toJson();
+      const stats: any = fullStats.toJson();
 
       // Report any build errors
       if (stats.errors.length) {
