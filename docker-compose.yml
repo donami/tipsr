@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  client:
+    build: .
+    image: donami/spot-movie-client
+    # command: python app.py
+    # volumes:
+    #  - ./vote:/app
+    ports:
+      - '3000:3000'
+    # networks:
+    #   - front-tier
+    #   - back-tier
