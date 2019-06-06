@@ -7,6 +7,7 @@ import Heading from '@/components/ui/heading';
 import PostItem from '../components/post-item';
 import Reply from '../components/reply';
 import { Breadcrumb } from '@/components/ui/breadcrumbs';
+import styled from '../../../lib/styledComponents';
 
 type Props = {} & RouteComponentProps<{ topicId: string }>;
 const Topic: React.SFC<Props> = ({ match }) => {
@@ -43,7 +44,9 @@ const Topic: React.SFC<Props> = ({ match }) => {
 
               <PostItem post={topic} />
               <>
-                {!topic.posts.length && <p>No posts in this topic created.</p>}
+                {!topic.posts.length && (
+                  <NoPosts>No posts in this topic created.</NoPosts>
+                )}
                 <div>
                   {topic.posts.map((post: any) => (
                     <PostItem key={post.id} post={post} />
@@ -61,3 +64,7 @@ const Topic: React.SFC<Props> = ({ match }) => {
 };
 
 export default Topic;
+
+const NoPosts = styled.p`
+  margin-bottom: ${props => props.theme.spacing.normal};
+`;

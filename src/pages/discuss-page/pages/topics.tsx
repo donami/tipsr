@@ -39,7 +39,7 @@ const Topics: React.SFC<Props> = ({ category, loading }) => {
                 to={`/discuss/create-topic/${category.id}`}
                 primary
               >
-                Create topic
+                Start a conversation
               </CreateTopicButton>
             </Top>
 

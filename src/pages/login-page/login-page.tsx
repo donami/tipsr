@@ -3,13 +3,16 @@ import Login from '@/components/login/login';
 import styled from '../../lib/styledComponents';
 
 import logo from '../../components/layout/logo-dark.png';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
   return (
     <Wrapper>
       <LoginContainer>
         <div className="logo">
-          <img src={logo} alt="" />
+          <Link to="/">
+            <img src={logo} alt="" />
+          </Link>
         </div>
         <Login />
       </LoginContainer>

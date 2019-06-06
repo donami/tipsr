@@ -23,6 +23,9 @@ const Reply: React.SFC<Props> = ({ topicId }) => {
           Share your thoughts with the community,{' '}
           <Link to="/signup">signup</Link> today.
         </p>
+        <p>
+          Already a member? Login <Link to="/login">here</Link>.
+        </p>
       </NotAuthed>
     );
   }

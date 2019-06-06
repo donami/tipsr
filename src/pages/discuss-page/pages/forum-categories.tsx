@@ -22,7 +22,7 @@ const ForumCategories: React.SFC<Props> = () => {
           return (
             <Breadcrumb
               data={{
-                title: 'Create topic',
+                title: 'Create conversation',
                 pathname: routeProps.match.url,
               }}
             >
@@ -64,10 +64,10 @@ const ForumCategories: React.SFC<Props> = () => {
         render={() => (
           <div>
             <Top>
-              <Heading sectionTitle>Categories</Heading>
+              <Heading sectionTitle>Discuss</Heading>
 
               <Button as={Link} to="/discuss/create-topic" primary>
-                Create topic
+                Start a conversation
               </Button>
             </Top>
 

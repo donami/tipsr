@@ -32,6 +32,10 @@ const Wrapper = styled.div`
   align-items: center;
   margin: ${props => props.theme.spacing.normal};
 
+  a {
+    text-decoration: none;
+  }
+
   h3 {
     font-weight: 300;
 

@@ -23,7 +23,7 @@ const TopicItem: React.SFC<Props> = ({ topic }) => {
           </span>
         </div>
       </Title>
-      <div>0 replies</div>
+      <div>{topic.posts.length} replies</div>
       <div>
         <span>{formatDate(topic.createdAt, true)}</span>
       </div>

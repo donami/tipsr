@@ -5,6 +5,8 @@ export default gql`
     forumCategory(id: $id) {
       id
       title
+      createdAt
+      updatedAt
       views
       posts
       topics {
@@ -20,9 +22,9 @@ export default gql`
           id
           fullName
         }
-        # posts {
-        #   id
-        # }
+        posts {
+          id
+        }
         __typename
       }
       __typename

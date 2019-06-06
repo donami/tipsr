@@ -11,6 +11,7 @@ import forumCategories from '@/queries/forum-categories';
 import { useToasts } from '@/components/toasts/toast-manager';
 import AppStateContext from '@/components/layout/app-state-context';
 import { slugify } from '../../../lib/helpers';
+import Heading from '../../../components/ui/heading';
 
 type Props = {} & RouteComponentProps;
 const CreateTopic: React.SFC<Props> = ({ history, match }) => {
@@ -36,28 +37,39 @@ const CreateTopic: React.SFC<Props> = ({ history, match }) => {
   return (
     <Mutation
       mutation={addForumTopic}
-      // update={(proxy, { data: { addForumTopic } }) => {
-      //   const data: any = proxy.readQuery({
-      //     query: forumTopic,
-      //     variables: {
-      //       id: topicId,
-      //     },
-      //   });
+      update={(proxy, { data: { addForumTopic } }) => {
+        if (!category) {
+          return;
+        }
 
-      //   proxy.writeQuery({
-      //     query: forumTopic,
-      //     variables: {
-      //       id: topicId,
-      //     },
-      //     data: {
-      //       ...data,
-      //       forumTopic: {
-      //         ...data.forumTopic,
-      //         posts: [...data.forumTopic.posts, addForumTopic],
-      //       },
-      //     },
-      //   });
-      // }}
+        const data: any = proxy.readQuery({
+          query: forumCategories,
+        });
+
+        const currentCategoryIndex = data.forumCategories.findIndex(
+          c => c.id === category.id
+        );
+
+        const updatedCategory = {
+          ...data.forumCategories[currentCategoryIndex],
+          topics: [
+            addForumTopic,
+            ...data.forumCategories[currentCategoryIndex].topics,
+          ],
+        };
+
+        proxy.writeQuery({
+          query: forumCategories,
+          data: {
+            ...data,
+            forumCategories: [
+              ...data.forumCategories.slice(0, currentCategoryIndex),
+              updatedCategory,
+              ...data.forumCategories.slice(currentCategoryIndex + 1),
+            ],
+          },
+        });
+      }}
     >
       {mutate => (
         <Wrapper
@@ -107,6 +119,7 @@ const CreateTopic: React.SFC<Props> = ({ history, match }) => {
             }
           }}
         >
+          <Heading>Create a new conversation</Heading>
           <Field>
             <Input
               placeholder="Title"
@@ -192,7 +205,14 @@ const CreateTopic: React.SFC<Props> = ({ history, match }) => {
 
 export default withRouter(CreateTopic);
 
-const Wrapper = styled.form``;
+const Wrapper = styled.form`
+  background: #2e2e2e;
+  padding: ${props => props.theme.spacing.normal};
+
+  h3 {
+    margin-bottom: ${props => props.theme.spacing.normal};
+  }
+`;
 
 const StyledInput = styled(Input)`
   width: 60%;

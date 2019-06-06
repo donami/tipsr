@@ -2,13 +2,16 @@ import React from 'react';
 import styled from '@/lib/styledComponents';
 import logo from '../../components/layout/logo-dark.png';
 import SignupForm from '../../components/login/signup-form';
+import { Link } from 'react-router-dom';
 
 const SignupPage = () => {
   return (
     <Wrapper>
       <Content>
         <div className="logo">
-          <img src={logo} alt="" />
+          <Link to="/">
+            <img src={logo} alt="" />
+          </Link>
         </div>
 
         <h3>Signup</h3>

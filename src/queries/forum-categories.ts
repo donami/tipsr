@@ -5,6 +5,9 @@ export default gql`
     forumCategories {
       id
       title
+      description
+      createdAt
+      updatedAt
       views
       posts
       movie {
@@ -16,9 +19,10 @@ export default gql`
         title
         views
         createdAt
-        # user {
-        #   id
-        # }
+        user {
+          id
+          fullName
+        }
         # posts {
         #   id
         # }

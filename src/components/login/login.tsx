@@ -75,7 +75,7 @@ const Login: React.SFC<any> = ({ history }) => {
                     credentials: 'same-origin',
                   });
 
-                  history.push('/admin');
+                  history.push('/');
                 }
               } catch (error) {
                 console.log(error.message);
